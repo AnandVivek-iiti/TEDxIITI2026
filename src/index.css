@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Retro “track” stripe helper (used by <LapStripe/>) */
+.lap-stripe {
+  background:
+    linear-gradient(#562717 0 0) 0 0 / 100% 100% no-repeat,
+    repeating-linear-gradient(90deg,
+      #562717 0 0.8rem,
+      #C21717 0.8rem 1.6rem,
+      #E76219 1.6rem 2.4rem,
+      #FEA712 2.4rem 3.2rem,
+      #FDDCA9 3.2rem 4rem);
+  mask:
+    radial-gradient(70px 70px at 70px 50%, #0000 98%, #000 99%), /* inside curve cut */
+    radial-gradient(70px 70px at calc(100% - 70px) 50%, #0000 98%, #000 99%),
+    linear-gradient(#000 0 0);
+  -webkit-mask:
+    radial-gradient(70px 70px at 70px 50%, #0000 98%, #000 99%),
+    radial-gradient(70px 70px at calc(100% - 70px) 50%, #0000 98%, #000 99%),
+    linear-gradient(#000 0 0);
+}
