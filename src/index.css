@@ -1,8 +1,15 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-/* Retro “track” stripe helper (used by <LapStripe/>) */
+@theme {
+  --color-lap-coffee: #0e0b09;
+  --color-lap-cream:  #f6efe7;
+  --color-lap-amber:  #fea712;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif; 
+}
+
+.bg-lap-noise {
+  background-image: radial-gradient(transparent, transparent);
+}
 .lap-stripe {
   background:
     linear-gradient(#562717 0 0) 0 0 / 100% 100% no-repeat,
