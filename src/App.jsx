@@ -6,7 +6,7 @@ import Team from "./pages/Team.jsx";
 import Sponsors from "./pages/Sponsors.jsx";
 import Contact from "./pages/Contact.jsx";
 import Speakers from "./pages/Speakers.jsx";
-import Events from "./pages/Events.jsx";
+import Events from "./pages/Events/Events.jsx";
 
 export default function App() {
   return (
