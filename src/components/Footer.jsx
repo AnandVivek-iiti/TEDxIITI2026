@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="border-t border-white/10 mt-12">
+    <footer className="border-t cursor-none border-white/10 mt-12">
       <div className="lap-stripe h-2 w-full" />
       <div className="max-w-6xl mx-auto px-4 py-8 text-sm flex flex-col sm:flex-row gap-3 justify-between">
         <p className="opacity-80">
