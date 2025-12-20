@@ -1,6 +1,6 @@
 import React from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import Car from "./Car";
+import Car from "../../components/F1Car";
 import eventsData from "../../data/EventData";
 // import EventCard from "./Eventcard";
 // import Button from "../../components/Button";

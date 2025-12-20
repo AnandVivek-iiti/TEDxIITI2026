@@ -1,46 +1,55 @@
-import { NavLink, Link } from "react-router-dom";
+import React from 'react';
 
-const linkBase =
-  "px-3 py-2 rounded-xl transition hover:bg-white/10 text-sm tracking-wide";
+// 1. Define the data structure
+const NAV_ITEMS = [
+  ["/", "Home"],
+  ["/speakers", "Speakers"],
+  ["/events", "Events"],
+  ["/team", "Team"],
+  ["/sponsors", "Sponsors"],
+  ["/contact", "Contact"],
+];
 
-export default function Navbar() {
+// 2. Separate Component for the Links
+const NavLinks = ({ items }) => {
   return (
-    <header className="sticky top-0 z-50 backdrop-blur bg-lap-coffee/80 border-b border-white/10">
-      <div className="lap-stripe h-2 w-full" />
-      <div className="max-w-6xl mx-auto px-4 py-3 flex items-center gap-6">
-        <Link to="/" className="flex items-center gap-3 group">
-          <div className="h-9 w-9 rounded-xl bg-lap-red grid place-items-center shadow-soft">
-            <span className="font-black text-lap-cream">x</span>
-          </div>
-          <div className="leading-tight">
-            <p className="font-bold uppercase tracking-wider">
-              TED<span className="text-lap-red">x</span> IIT Indore
-            </p>
-            <p className="text-xs opacity-80">The Uncharted Lap</p>
-          </div>
-        </Link>
-        <nav className="ml-auto flex gap-1">
-          {[
-            ["/", "Home"],
-            ["/speakers", "Speakers"],
-            ["/events", "Events"],
-            ["/team", "Team"],
-            ["/sponsors", "Sponsors"],
-            ["/contact", "Contact"],
-          ].map(([to, label]) => (
-            <NavLink
-              key={to}
-              to={to}
-              end={to === "/"}
-              className={({ isActive }) =>
-                `${linkBase} ${isActive ? "bg-white/15" : "text-lap-cream/90"}`
-              }
-            >
-              {label}
-            </NavLink>
-          ))}
-        </nav>
-      </div>
-    </header>
+    <div className="hidden md:flex gap-10 text-[10px] font-black tracking-[0.3em] text-gray-400">
+      {items.map(([path, label]) => (
+        <a 
+          key={path} 
+          href={path} 
+          className="hover:text-red-500 transition-colors"
+        >
+          {/* Transforming to uppercase to match original design style */}
+          {label.toUpperCase()}
+        </a>
+      ))}
+    </div>
   );
-}
+};
+
+// 3. Main Navbar Component
+const Navbar = () => {
+  return (
+    <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b cursor-none border-white/5 bg-black/40">
+      <div className="max-w-7xl mx-auto px-10 py-6 flex justify-between items-center">
+        
+        {/* Logo Section */}
+        <div className="flex items-baseline gap-1">
+          <span className="text-2xl font-black italic">
+            TED<span className="text-red-600">x</span>
+          </span>
+          <span className="text-[15px] font-bold tracking-[0.3em] text-gray-500">
+            IITINDORE
+          </span>
+        </div>
+
+        {/* Navigation Links Component */}
+        <NavLinks items={NAV_ITEMS} />
+        
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;
