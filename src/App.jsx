@@ -14,7 +14,7 @@ export default function App() {
     <div className="min-h-screen bg-lap-coffee cursor-none text-lap-cream font-body bg-lap-noise">
       <CustomCursor />
       <Navbar />
-      <main className="pb-20">
+      <main>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/team" element={<Team />} />

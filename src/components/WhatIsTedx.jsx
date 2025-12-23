@@ -44,7 +44,7 @@ export default function WhatIsTedx() {
 
             <h2 className="text-5xl md:text-7xl font-black italic tracking-tighter leading-[0.9]">
               <span className="text-white">What is </span>
-              <span className="bg-gradient-to-r from-red-600 to-red-400 bg-clip-text text-transparent">TED</span>
+              <span className="bg-linear-to-r from-red-600 to-red-400 bg-clip-text text-transparent">TED</span>
               <sup className="text-red-600 text-4xl">x</sup>
             </h2>
 
@@ -89,9 +89,9 @@ export default function WhatIsTedx() {
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
           }`}>
             <div className="relative group">
-              <div className="absolute -inset-2 bg-gradient-to-r from-red-600 via-purple-600 to-red-600 rounded-2xl blur-xl opacity-60 group-hover:opacity-100 transition duration-500 animate-pulse"></div>
+              <div className="absolute -inset-2 bg-linear-to-r from-red-600 via-purple-600 to-red-600 rounded-2xl blur-xl opacity-60 group-hover:opacity-100 transition duration-500 animate-pulse"></div>
               <div className="relative bg-black rounded-2xl overflow-hidden border-2 border-red-600/50 group-hover:border-red-600 transition-colors duration-300">
-                <div className="absolute inset-0 bg-gradient-to-br from-red-600/10 to-purple-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-linear-to-br from-red-600/10 to-purple-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <iframe
                   className="w-full aspect-video relative z-10"
                   src="https://www.youtube.com/embed/d0NHOpeczUU"
@@ -106,7 +106,7 @@ export default function WhatIsTedx() {
         </div>
       </div>
       
-      <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-transparent via-red-600 to-transparent"></div>
+      <div className="absolute bottom-0 left-0 right-0 h-2 bg-linear-to-r from-transparent via-red-600 to-transparent"></div>
       
       <style jsx>{`
         @keyframes grid-flow {

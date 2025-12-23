@@ -11,31 +11,34 @@ export default function Footer() {
 
   return (
     <footer className="relative z-20 bg-black text-white overflow-hidden">
-      <div className="h-2 w-full relative overflow-hidden">
-        <div 
-          className="absolute inset-0 bg-gradient-to-r from-red-600 via-purple-600 to-red-600"
-          style={{ animation: 'shimmer 3s linear infinite' }}
-        ></div>
-      </div>
       
-      <div className="max-w-7xl mx-auto px-4 py-16 relative">
-        <div className="absolute top-0 right-0 w-64 h-64 opacity-5">
-          <div className="grid grid-cols-8 grid-rows-8 h-full">
-            {Array.from({ length: 64 }).map((_, i) => (
-              <div 
-                key={i} 
-                className={`${(Math.floor(i / 8) + i) % 2 === 0 ? 'bg-white' : 'bg-black'}`}
-              ></div>
-            ))}
-          </div>
+      <div className="max-w-8xl mx-auto px-4 py-16 relative">
+        
+        {/* --- MODIFIED SECTION: Full Width Pattern --- */}
+        {/* Changed from right-0/w-64 to left-0/w-full. 
+            Used inline SVG for a perfect infinite checkerboard without 1000+ divs. */}
+        <div className="absolute top-0 left-0 w-full h-64 opacity-5 pointer-events-none">
+          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="checkerboard" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+                {/* 4 squares to create the tile: TopL, TopR, BotL, BotR */}
+                <rect x="0" y="0" width="20" height="20" fill="white" />
+                <rect x="20" y="0" width="20" height="20" fill="black" />
+                <rect x="0" y="20" width="20" height="20" fill="black" />
+                <rect x="20" y="20" width="20" height="20" fill="white" />
+              </pattern>
+            </defs>
+            <rect x="0" y="0" width="100%" height="100%" fill="url(#checkerboard)" />
+          </svg>
         </div>
+        {/* ------------------------------------------- */}
 
-        <div className="flex flex-col md:flex-row gap-12 justify-between items-start relative">
-          <div className="space-y-6">
+        <div className="flex flex-col md:flex-row gap-12 px-15 justify-between items-start relative">
+          <div className="space-y-6 ">
             <div className="space-y-2">
               <h3 className="text-4xl font-black italic tracking-tighter">
                 TED<span className="text-red-600">x</span>
-                <span className="text-xl font-bold tracking-[0.3em] text-gray-500">IITINDORE</span>
+                <span className="text-4xl font-black italic tracking-tighter">IITINDORE</span>
               </h3>
               <p className="text-sm font-black uppercase tracking-[0.3em] text-gray-600">
                 The Uncharted Lap
@@ -82,24 +85,9 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row gap-6 justify-between items-center text-center md:text-left">
-          <div className="space-y-2">
-            <p className="text-sm font-bold text-gray-400">
-              © {new Date().getFullYear()} TEDxIITIndore. All rights reserved.
-            </p>
-            <p className="text-[10px] uppercase tracking-widest text-gray-600">
-              This independent TEDx event is operated under license from TED.
-            </p>
-          </div>
-          
-          <div className="flex gap-6 text-xs text-gray-500 font-medium">
-            <a href="#" className="hover:text-red-600 transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-red-600 transition-colors">Terms of Service</a>
-            <a href="#" className="hover:text-red-600 transition-colors">Code of Conduct</a>
-          </div>
-        </div>
+        
 
-        <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-tl from-red-600/20 to-transparent rounded-tl-full"></div>
+        <div className="absolute bottom-0 right-0 w-32 h-32 bg-linear-to-tl from-red-600/20 to-transparent rounded-tl-full"></div>
       </div>
 
       <style jsx>{`

@@ -17,7 +17,7 @@ export default function EventCard({ event }) {
 
       {/* BORDER WRAPPER */}
       <div
-        className="relative z-10 p-[2px]"
+        className="relative z-10 p-0.5"
         style={{
           clipPath: clip,
           background:

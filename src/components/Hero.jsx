@@ -10,7 +10,7 @@ export default function Hero() {
       <h1 className="text-[4rem] md:text-[7rem] font-black leading-[0.85] italic tracking-tighter mb-8">
         IDEAS AT<br/>
         <span className="text-transparent" style={{ WebkitTextStroke: '1px rgba(255,255,255,0.4)' }}>300 KM/H</span><br/>
-      <span className="bg-gradient-to-r from-red-600 to-red-400 bg-clip-text text-transparent pr-4">
+      <span className="bg-linear-to-r from-red-600 to-red-400 bg-clip-text text-transparent pr-4">
           IIT INDORE
         </span>
       </h1>
