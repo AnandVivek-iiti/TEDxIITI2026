@@ -1,7 +1,7 @@
-export default function EventCard({ event }) {
-  const clip =
-    "polygon(12% 0, 100% 0, 100% 88%, 88% 100%, 0 100%, 0 12%)";
+import React from "react";
+import EventData from "../../data/EventData";
 
+export default function EventCard() {
   return (
     <div className="relative group w-80">
       {/* OUTER GLOW */}
@@ -54,31 +54,19 @@ export default function EventCard({ event }) {
             </h3>
           </div>
 
-          {/* HOVER DESCRIPTION */}
-          <div
-            className="absolute inset-0 z-20 flex items-center justify-center
-            bg-[#050914]/95 px-6 text-center
-            opacity-0 translate-y-6
-            group-hover:opacity-100 group-hover:translate-y-0
-            transition-all duration-300"
-          >
-            <p className="text-cyan-300 text-sm leading-relaxed">
-              {event.subheading}
-            </p>
-          </div>
-        </div>
-      </div>
+                {/* CENTER — EMPTY (VISUAL BREATHING SPACE) */}
+                <div className="flex-1" />
 
-      {/* SOFT HOVER PULSE */}
-      <div
-        className="absolute inset-0 z-0 opacity-0 group-hover:opacity-30 transition duration-300 pointer-events-none"
-        style={{
-          clipPath: clip,
-          background:
-            "radial-gradient(circle at center,#22d3ee,transparent 70%)",
-          filter: "blur(18px)",
-        }}
-      />
+                {/* BOTTOM — SUBHEADING */}
+                <div className="pb-30 px-6 text-center">
+                  <p className="text-m  tracking-wide opacity-80">
+                    {event.subheading}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+      })}
     </div>
   );
 }
