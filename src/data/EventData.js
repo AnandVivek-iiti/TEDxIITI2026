@@ -1,7 +1,7 @@
 // src/data/EventData.js
 const EventImages = [
   "/events/theme.png",
-  "/events/Car.png",
+  "/events/theme.png",
   "/events/theme.png",
   "/events/theme.png",
   "/events/theme.png",

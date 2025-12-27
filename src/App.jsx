@@ -6,8 +6,9 @@ import Team from "./pages/Team.jsx";
 import Sponsors from "./pages/Sponsors.jsx";
 import Contact from "./pages/Contact.jsx";
 import Speakers from "./pages/Speakers.jsx";
-import CustomCursor from './components/CustomCursor';
+import CustomCursor from "./components/CustomCursor";
 import Events from "./pages/Events/Events.jsx";
+import Talk from "./pages/Talks/Talk.jsx";
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/speakers" element={<Speakers />} />
           <Route path="/events" element={<Events />} />
+          <Route path="/talk" element={<Talk />} />
         </Routes>
       </main>
       <Footer />
