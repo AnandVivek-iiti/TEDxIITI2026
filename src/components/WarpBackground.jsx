@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect, useRef } from 'react';
 
 export default function WarpBackground() {
@@ -6,89 +5,94 @@ export default function WarpBackground() {
 
   useEffect(() => {
     const canvas = canvasRef.current;
+    if (!canvas) return;
+
     const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
     let animationId;
-    let w, h;
+    let time = 0;
 
-    // Configuration
-    const starCount = 400;
-    const speed = 15;
-    const stars = [];
-
-    const initStars = () => {
-      w = window.innerWidth;
-      h = window.innerHeight;
-      canvas.width = w;
-      canvas.height = h;
-      
-      stars.length = 0;
-      for (let i = 0; i < starCount; i++) {
-        stars.push({
-          x: Math.random() * w - w / 2,
-          y: Math.random() * h - h / 2,
-          z: Math.random() * w,
-          px: 0,
-          py: 0
-        });
-      }
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     };
 
-    const draw = () => {
-      // Create a slight trail effect by not fully clearing the canvas
-      ctx.fillStyle = 'rgba(5, 5, 5, 0.2)'; 
-      ctx.fillRect(0, 0, w, h);
+    resize();
+    window.addEventListener('resize', resize);
 
-      const cx = w / 2;
-      const cy = h / 2;
+    const particles = [];
 
-      stars.forEach(s => {
-        s.z -= speed;
+    // Create speed lines
+    for (let i = 0; i < 80; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        speed: Math.random() * 8 + 4,
+        length: Math.random() * 100 + 50,
+        opacity: Math.random() * 0.3 + 0.1,
+      });
+    }
 
-        // Reset star if it passes the screen
-        if (s.z <= 0) {
-          s.z = w;
-          s.x = Math.random() * w - w / 2;
-          s.y = Math.random() * h - h / 2;
+    const animate = () => {
+      time += 0.016;
+
+      // Clear with fade effect
+      ctx.fillStyle = 'rgba(5, 5, 5, 0.15)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Draw speed lines
+      particles.forEach((p) => {
+        ctx.beginPath();
+        ctx.strokeStyle = `rgba(220, 40, 40, ${p.opacity})`;
+        ctx.lineWidth = 1;
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(p.x - p.length, p.y);
+        ctx.stroke();
+
+        // Update position
+        p.x += p.speed;
+
+        // Reset when off screen
+        if (p.x > canvas.width + p.length) {
+          p.x = -p.length;
+          p.y = Math.random() * canvas.height;
         }
-
-        // Project 3D coordinates to 2D
-        const x = (s.x / s.z) * w + cx;
-        const y = (s.y / s.z) * w + cy;
-
-        if (s.px !== 0) {
-          const opacity = Math.min(1, (1 - s.z / w) * 1.5);
-          ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
-          ctx.lineWidth = (1 - s.z / w) * 3;
-          ctx.lineCap = 'round';
-          
-          ctx.beginPath();
-          ctx.moveTo(x, y);
-          ctx.lineTo(s.px, s.py); // Draw line from previous position to current
-          ctx.stroke();
-        }
-
-        s.px = x;
-        s.py = y;
       });
 
-      animationId = requestAnimationFrame(draw);
+      // Subtle glow
+      const gradient = ctx.createRadialGradient(
+        canvas.width * 0.7,
+        canvas.height * 0.4,
+        0,
+        canvas.width * 0.7,
+        canvas.height * 0.4,
+        400
+      );
+      gradient.addColorStop(0, 'rgba(220, 40, 40, 0.08)');
+      gradient.addColorStop(1, 'transparent');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      animationId = requestAnimationFrame(animate);
     };
 
-    initStars();
-    draw();
+    animate();
 
-    window.addEventListener('resize', initStars);
     return () => {
+      window.removeEventListener('resize', resize);
       cancelAnimationFrame(animationId);
-      window.removeEventListener('resize', initStars);
     };
   }, []);
 
   return (
-    <canvas 
-      ref={canvasRef} 
-      className="fixed inset-0 z-0 pointer-events-none opacity-60"
-      style={{ filter: 'contrast(1.2) brightness(0.8)' }}
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 z-0"
+      style={{
+        background:
+          'linear-gradient(135deg, hsl(0 0% 3%) 0%, hsl(0 0% 2%) 100%)',
+      }}
     />
   );
 }

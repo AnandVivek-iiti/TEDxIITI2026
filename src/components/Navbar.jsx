@@ -38,10 +38,10 @@ const Navbar = () => {
         {/* Logo Section */}
         <div className="flex items-baseline gap-1">
           <span className="text-2xl font-black italic">
-            TED<span className="text-red-600">x</span>
+            TED<span className="text-red-600 ">x</span>
           </span>
-          <span className="text-[15px] font-bold tracking-[0.3em] text-gray-500">
-            IITINDORE
+          <span className="text-2xl italic font-black">
+            IIT INDORE
           </span>
         </div>
 
