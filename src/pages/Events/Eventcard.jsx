@@ -1,59 +1,47 @@
+// EventCard.jsx
 import React from "react";
-import EventData from "../../data/EventData";
+import { motion, useTransform } from "framer-motion";
 
-export default function EventCard() {
+export default function EventCard({ event, progress }) {
+  const scale = useTransform(progress, [0, 0.5, 1], [0.7, 1, 0.7]);
+  const opacity = useTransform(progress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+  const y = useTransform(progress, [0, 1], [120, -120]);
+
   return (
+    <motion.div
+      style={{ scale, opacity, y }}
+      className="relative w-full max-w-6xl"
+    >
+      <img src="/events/frame.png" className="w-full pointer-events-none" />
 
-    <div className="relative w-full max-w-5xl px-10">
-      {/* EVENT FRAMES */}
-  {EventData.map((event) => {
+      <div
+        className="absolute inset-[8%] overflow-hidden"
+        style={{
+          clipPath:
+            "polygon(6% 0,100% 0,100% 94%,94% 100%,0 100%,0 6%)",
+        }}
+      >
+        <img
+          src={event.image}
+          className="absolute inset-0 w-full h-full object-cover"
+        />
 
-            {/* FRAME IMAGE */}
-            <img
-              src="/events/frame1.png"
-              alt="frame"
-              className="w-full pointer-events-none"
-            />
+        <div className="absolute inset-0 " />
 
-            {/* FRAME WINDOW (IMAGE + TEXT INSIDE FRAME) */}
-            <div
-              className="absolute inset-[8%] overflow-hidden flex flex-col"
-              style={{
-                clipPath: "polygon(6% 0,100% 0,100% 94%,94% 100%,0 100%,0 6%)",
-              }}
-            >
-              {/* BACKGROUND IMAGE */}
-              <img
-                src={event.image}
-                alt={event.name}
-                className="absolute inset-0 w-full h-full object-cover scale-50"
-              />
+        <div className="relative z-10 h-full flex flex-col">
+          <div className="pt-16 text-center">
+            <h1 className="tracking-[0.3em] text-xl text-white">
+              {event.name}
+            </h1>
+          </div>
 
-              {/* DARK OVERLAY */}
-              <div className="absolute inset-0 bg-black/50" />
+          <div className="flex-1" />
 
-              {/* CONTENT LAYER */}
-              <div className="relative z-10 flex flex-col h-full">
-                {/* TOP — EVENT NAME */}
-                <div className="pt-20 text-center">
-                  <h1 className="text-[22px] font-display tracking-[0.3em]">
-                    {event.name}
-                  </h1>
-                </div>
-
-                {/* CENTER — EMPTY (VISUAL BREATHING SPACE) */}
-                <div className="flex-1" />
-
-                {/* BOTTOM — SUBHEADING */}
-                <div className="pb-30 px-6 text-center">
-                  <p className="text-m  tracking-wide opacity-80">
-                    {event.subheading}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-      })}
-    </div>
+          <div className="pb-12 px-6 text-center">
+            <p className="text-white/80">{event.subheading}</p>
+          </div>
+        </div>
+      </div>
+    </motion.div>
   );
 }

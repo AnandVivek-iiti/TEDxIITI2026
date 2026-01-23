@@ -7,7 +7,7 @@ import Sponsors from "./pages/Sponsors.jsx";
 import Contact from "./pages/Contact.jsx";
 import Speakers from "./pages/Speakers.jsx";
 import CustomCursor from "./components/CustomCursor";
-import Events from "./pages/Events/Events.jsx";
+import Events from "./pages/Events/Car.jsx";
 import Talk from "./pages/Talks/Talk.jsx";
 
 export default function App() {

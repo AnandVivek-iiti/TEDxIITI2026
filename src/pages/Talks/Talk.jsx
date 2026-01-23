@@ -71,7 +71,7 @@ export default function TalksPage() {
             </span>
           </h1>
           <p className="mt-4 text-neutral-400 font-mono text-xs uppercase tracking-[0.5em]">
-            Indore Grand Prix Protocol
+           IIT Indore Grand Prix Protocol
           </p>
         </div>
       </section>
