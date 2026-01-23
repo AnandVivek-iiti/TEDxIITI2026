@@ -34,8 +34,8 @@ const SPONSOR_CONFIG = [
 ];
 
 const SponsorCard = ({ sponsor, index }) => (
-  <div 
-    className="sponsor-card" 
+  <div
+    className="sponsor-card"
     style={{ transitionDelay: `${index * 0.15}s` }}
   >
     <div className="card-accent" />
@@ -86,10 +86,10 @@ const SponsorsPage = () => {
 
         <main>
           {SPONSOR_CONFIG.map((tier, idx) => (
-            <TierSection 
-              key={tier.id} 
-              tier={tier} 
-              ref={el => sectionRefs.current[idx] = el} 
+            <TierSection
+              key={tier.id}
+              tier={tier}
+              ref={el => sectionRefs.current[idx] = el}
             />
           ))}
         </main>
@@ -117,9 +117,9 @@ const Styles = () => (
     .container { max-width: 1100px; margin: 0 auto; padding: 80px 20px; }
 
     /* Header */
-    .page-header { 
-      border-left: 8px solid var(--red); 
-      padding-left: 25px; 
+    .page-header {
+      border-left: 8px solid var(--red);
+      padding-left: 25px;
       margin-bottom: 100px;
       position: relative;
     }
@@ -134,16 +134,16 @@ const Styles = () => (
     /* Sections */
     .tier-section { margin-bottom: 120px; opacity: 0.3; transition: opacity 0.8s ease; }
     .tier-section.reveal { opacity: 1; }
-    
+
     .tier-header { display: flex; align-items: center; gap: 15px; margin-bottom: 40px; }
     .race-number { font-size: 2.5rem; color: var(--red); font-weight: 900; font-style: italic; }
     .tier-name { text-transform: uppercase; letter-spacing: 4px; border-bottom: 2px solid var(--brown); font-size: 1.2rem; }
 
     /* Grids */
-    .grid-container { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-      gap: 25px; 
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
     }
     .pole-position .grid-container { grid-template-columns: 1fr; max-width: 800px; margin: 0 auto; }
 
