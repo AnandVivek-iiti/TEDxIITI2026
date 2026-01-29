@@ -4,7 +4,7 @@ import React from 'react';
 const NAV_ITEMS = [
   ["/", "Home"],
   ["/speakers", "Speakers"],
-  ["/events", "Events"],
+  // ["/events", "Events"],
   ["/team", "Team"],
     ["/talk", "Talk"],
   ["/sponsors", "Sponsors"],
