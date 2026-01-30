@@ -51,7 +51,7 @@ export default function TalksPage() {
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   const seasons = ["ALL", ...new Set(talks.map((t) => t.date))].sort(
-    (a, b) => b - a
+    (a, b) => b - a,
   );
   const filtered =
     season === "ALL" ? talks : talks.filter((t) => t.date === season);
@@ -71,7 +71,7 @@ export default function TalksPage() {
             </span>
           </h1>
           <p className="mt-4 text-neutral-400 font-mono text-xs uppercase tracking-[0.5em]">
-           IIT Indore Grand Prix Protocol
+            IIT Indore Grand Prix Protocol
           </p>
         </div>
       </section>

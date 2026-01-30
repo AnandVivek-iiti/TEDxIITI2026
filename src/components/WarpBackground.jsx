@@ -86,13 +86,15 @@ export default function WarpBackground() {
   }, []);
 
   return (
+     <div className="fixed inset-0 -z-10 overflow-hidden">
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 z-0"
+      className="w-full h-full"
       style={{
         background:
           'linear-gradient(135deg, hsl(0 0% 3%) 0%, hsl(0 0% 2%) 100%)',
       }}
     />
+    </div>
   );
 }
