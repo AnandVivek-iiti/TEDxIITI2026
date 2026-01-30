@@ -61,7 +61,7 @@ export default function TalksPage() {
       <WarpBackground />
 
       {/* ===== HERO SECTION ===== */}
-      <section className="relative h-[45vh] flex flex-col items-center justify-center overflow-hidden">
+      <section className="relative h-[35vh] flex flex-col items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/60 to-[#050505] z-10" />
         <div className="relative z-20 text-center px-4">
           <h1 className="font-[Orbitron] text-6xl md:text-8xl font-black italic tracking-tighter">
@@ -77,7 +77,7 @@ export default function TalksPage() {
       </section>
 
       {/* SELECTION CONTROLS */}
-      <div className="sticky top-0 z-50 py-4 bg-[#050505]/80 backdrop-blur-xl border-y border-white/5">
+      <div className="sticky top-0 z-50 py-4  backdrop-blur-xl border-y border-white/5">
         <div className="flex justify-center gap-2">
           {seasons.map((y) => (
             <button
