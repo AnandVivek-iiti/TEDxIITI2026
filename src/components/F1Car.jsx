@@ -104,7 +104,6 @@ function RearWing({ position }) {
 function WheelAssembly({ position, isRear, isLeft, wheelRefs, index }) {
   const wheelWidth = isRear ? 0.38 : 0.34;
   const wheelRadius = 0.365;
-
   return (
     <group position={position}>
       <group ref={(el) => (wheelRefs.current[index] = el)}>
@@ -188,12 +187,10 @@ function Suspension({ position, isRear, isLeft }) {
 function F1Car({ mouse }) {
   const groupRef = useRef();
   const wheelRefs = useRef([]);
-
   // Animation States
   const [entryProgress, setEntryProgress] = useState(0);
   const targetRotation = useRef({ x: 0, y: 0 });
   const currentRotation = useRef({ x: 0, y: 0 });
-
   useFrame((state, delta) => {
     const time = state.clock.getElapsedTime();
 

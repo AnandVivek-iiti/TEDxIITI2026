@@ -270,3 +270,148 @@ export default function UnchartedLapScroll() {
     </div>
   );
 }
+
+/* -----------------------------------------
+   MAIN SCROLL COMPONENT
+------------------------------------------ */
+export default function UnchartedLapScroll() {
+  const { scrollYProgress } = useScroll();
+  const totalEvents = eventsData.length;
+
+  /* --- ROAD TRANSFORMATIONS --- */
+  const roadScale = useTransform(scrollYProgress, [0, 0.85, 1], [1, 1.6, 1.8]);
+  const roadOpacity = useTransform(scrollYProgress, [0.92, 1], [1, 0]);
+  const roadBrightness = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.1, 1.3]);
+
+  // Enhanced road movement with more dramatic curves
+  const roadX = useTransform(
+    scrollYProgress,
+    [0, 0.2, 0.4, 0.6, 0.8, 1],
+    [0, 50, -50, 60, -40, 0]
+  );
+  const roadSkew = useTransform(scrollYProgress, [0, 0.5, 1], [0, -2, 4]);
+  const roadRotate = useTransform(scrollYProgress, [0, 1], [0, 2]);
+
+  /* --- CAR PARALLAX MOTION --- */
+  const carY = useTransform(scrollYProgress, [0, 0.5, 1], [60, -20, -150]);
+  const carScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.85, 1.08, 1.15]);
+
+  // Enhanced car rotation for dynamic feel
+  const carRotate = useTransform(
+    scrollYProgress,
+    [0, 0.25, 0.5, 0.75, 1],
+    [0, -3, 2, -2, 3]
+  );
+
+  // Smooth road-following with drift effect
+  const carX = useTransform(
+    scrollYProgress,
+    [0, 0.2, 0.4, 0.6, 0.8, 1],
+    [0, 38, -42, 45, -35, 0]
+  );
+
+  // Add subtle tilt based on horizontal velocity
+  const carSkewY = useTransform(carX, [-50, 50], [1.5, -1.5]);
+
+  return (
+    <div
+      className="relative bg-gradient-to-b from-slate-950 via-slate-900 to-black"
+      style={{ height: `${totalEvents * 150}vh` }}
+    >
+      <div className="sticky top-0 h-screen overflow-hidden flex items-center justify-center">
+
+        {/* Atmospheric effects */}
+        <div className="absolute inset-0 z-10 pointer-events-none">
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-cyan-500/5 via-transparent to-purple-500/5" />
+          <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-black/50 to-transparent" />
+        </div>
+
+        {/* ROAD */}
+        <motion.div
+          style={{
+            scale: roadScale,
+            opacity: roadOpacity,
+            x: roadX,
+            skewY: roadSkew,
+            rotateZ: roadRotate,
+            filter: `brightness(${roadBrightness.get()})`
+          }}
+          className="absolute inset-0 z-0 origin-bottom bg-[url('/events/image.png')] bg-cover bg-bottom"
+        />
+
+        {/* CAR WITH ENHANCED EFFECTS */}
+        <motion.div
+          className="absolute bottom-[15%] z-30 pointer-events-none"
+          style={{
+            y: carY,
+            x: carX,
+            scale: carScale,
+            rotateZ: carRotate,
+            skewY: carSkewY,
+          }}
+        >
+          <div className="car-container relative">
+            {/* Car glow/trail effect */}
+            <div className="absolute inset-0 scale-110" />
+
+            {/* Headlight glow */}
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-32 h-32 bg-yellow-300/20 blur-3xl rounded-full" />
+
+            <img
+              src="/events/Car1.png"
+              alt="car"
+              className="relative w-[344px] md:w-[400px] drop-shadow-[0_40px_60px_rgba(0,0,0,0.9)]"
+              style={{
+                filter: "drop-shadow(0 0 20px rgba(0,200,255,0.4))"
+              }}
+            />
+          </div>
+        </motion.div>
+
+        {/* EVENTS */}
+        {eventsData.map((event, index) => (
+          <EventFrame
+            key={event.id}
+            event={event}
+            index={index}
+            totalEvents={totalEvents}
+            scrollYProgress={scrollYProgress}
+          />
+        ))}
+      </div>
+
+      <style>{`
+
+
+
+
+        .car-container {
+          animation: engineShake 0.15s infinite ease-in-out;
+        }
+
+        /* Smooth scrolling */
+        html {
+          scroll-behavior: smooth;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+          width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+          background: rgba(0, 0, 0, 0.5);
+        }
+
+        ::-webkit-scrollbar-thumb {
+          background: linear-gradient(to bottom, #06b6d4, #8b5cf6);
+          border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+          background: linear-gradient(to bottom, #0891b2, #7c3aed);
+        }
+      `}</style>
+    </div>
+  );
+}
