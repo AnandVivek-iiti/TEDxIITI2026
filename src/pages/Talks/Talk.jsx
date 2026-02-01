@@ -55,10 +55,18 @@ export default function TalksPage() {
   );
   const filtered =
     season === "ALL" ? talks : talks.filter((t) => t.date === season);
+  const getEmbedUrl = (url) => {
+    if (url.includes("embed")) return url;
+    const id = url.split("v=")[1]?.split("&")[0];
+    return `https://www.youtube.com/embed/${id}`;
+  };
 
   return (
     <div className="min-h-screen text-white font-sans bg-[#050505] selection:bg-red-600">
-      <WarpBackground />
+      <div className="fixed inset-0 -z-10">
+  <WarpBackground />
+</div>
+
 
       {/* ===== HERO SECTION ===== */}
       <section className="relative h-[35vh] flex flex-col items-center justify-center overflow-hidden">
@@ -111,24 +119,25 @@ export default function TalksPage() {
                     hoveredIndex === i ? "rotate-y-180" : ""
                   }`}
                 >
-                  {/* FRONT SIDE */}
-                  <div className="absolute inset-0 backface-hidden w-full h-full flex flex-col bg-neutral-900/40">
-                    <div className="relative h-2/3 bg-black">
+                  <div className="absolute inset-0 backface-hidden grid grid-rows-[3fr_2fr] bg-neutral-900/40">
+                    <div className="relative bg-black">
                       <iframe
-                        src={talk.link}
+                        src={getEmbedUrl(talk.link)}
                         title={talk.title}
-                        className="w-full h-full pointer-events-none opacity-80 group-hover:opacity-100"
+                        className="w-full h-full"
+                        allowFullScreen
                       />
                     </div>
-                    <div className="p-6 flex-grow border-t border-red-600/20">
-                      <h3 className="text-lg font-[Orbitron] font-bold uppercase leading-tight tracking-tight italic">
+
+                    <div className="p-6 border-t border-red-600/20 flex items-center">
+                      <h3 className="text-lg font-[Orbitron] font-bold uppercase italic leading-tight">
                         {talk.title}
                       </h3>
                     </div>
                   </div>
 
                   {/* BACK SIDE (Telemetry) */}
-                  <div className="absolute inset-0 backface-hidden w-full h-full bg-[#0a0a0a] p-8 rotate-y-180 flex flex-col">
+                  <div className="absolute inset-0 backface-hidden rotate-y-180 bg-[#0a0a0a] p-8 flex flex-col justify-between">
                     <div className="border-l-4 border-red-600 pl-4 mb-6">
                       <h2 className="text-2xl font-[Orbitron] font-black italic uppercase text-white tracking-tighter">
                         {talk.speaker}

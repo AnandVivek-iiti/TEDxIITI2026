@@ -12,7 +12,7 @@ export default function Footer() {
   return (
     <footer className="relative z-20 bg-black text-white overflow-hidden">
       
-      <div className="max-w-8xl mx-auto px-4 py-16 relative">
+      <div className="max-w-8xl mx-auto px-4 py-6 relative">
         
         {/* --- MODIFIED SECTION: Full Width Pattern --- */}
         {/* Changed from right-0/w-64 to left-0/w-full. 
