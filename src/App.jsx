@@ -7,7 +7,7 @@ import Sponsors from "./pages/Sponsors.jsx";
 import Contact from "./pages/Contact.jsx";
 import Speakers from "./pages/Speakers.jsx";
 import CustomCursor from "./components/CustomCursor";
-import Events from "./pages/Events/Car.jsx";
+// import Events from "./pages/Events/Events.jsx";
 import Talk from "./pages/Talks/Talk.jsx";
 
 export default function App() {
@@ -22,7 +22,7 @@ export default function App() {
           <Route path="/sponsors" element={<Sponsors />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/speakers" element={<Speakers />} />
-          <Route path="/events" element={<Events />} />
+          {/* <Route path="/events" element={<Events />} /> */}
           <Route path="/talk" element={<Talk />} />
         </Routes>
       </main>

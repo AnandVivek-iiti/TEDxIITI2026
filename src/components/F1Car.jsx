@@ -104,7 +104,7 @@ function RearWing({ position }) {
 function WheelAssembly({ position, isRear, isLeft, wheelRefs, index }) {
   const wheelWidth = isRear ? 0.38 : 0.34;
   const wheelRadius = 0.365;
-
+  
   return (
     <group position={position}>
       <group ref={(el) => (wheelRefs.current[index] = el)}>
@@ -188,12 +188,12 @@ function Suspension({ position, isRear, isLeft }) {
 function F1Car({ mouse }) {
   const groupRef = useRef();
   const wheelRefs = useRef([]);
-
+  
   // Animation States
   const [entryProgress, setEntryProgress] = useState(0);
   const targetRotation = useRef({ x: 0, y: 0 });
   const currentRotation = useRef({ x: 0, y: 0 });
-
+  
   useFrame((state, delta) => {
     const time = state.clock.getElapsedTime();
 
@@ -202,47 +202,47 @@ function F1Car({ mouse }) {
     if (entryProgress < 1) {
       setEntryProgress(prev => Math.min(prev + delta * 0.5, 1));
       const eased = 1 - Math.pow(1 - entryProgress, 3);
-
+      
       // Interpolate position from start (18) to end (6) for Home Page
       groupRef.current.position.x = THREE.MathUtils.lerp(18, 6, eased);
       groupRef.current.position.y = THREE.MathUtils.lerp(2, 0.5, eased);
-
+      
       // Interpolate rotation during entry
       groupRef.current.rotation.y = THREE.MathUtils.lerp(
-        -Math.PI / 2 - 0.6,
-        -Math.PI / 2 - 0.2,
+        -Math.PI / 2 - 0.6, 
+        -Math.PI / 2 - 0.2, 
         eased
       );
-
+      
       groupRef.current.rotation.z = THREE.MathUtils.lerp(-0.1, 0, eased);
 
     } else {
       // 2. IDLE FLOATING ANIMATION
       groupRef.current.position.y = 0.5 + Math.sin(time * 1.2) * 0.15;
       groupRef.current.position.z = Math.sin(time * 0.6) * 0.05;
-
+      
       // 3. CURSOR INTERACTION
       targetRotation.current.x = mouse.current[1] * 0.2;
       targetRotation.current.y = -Math.PI / 2 - 0.2 + mouse.current[0] * 0.3;
-
+      
       currentRotation.current.x = THREE.MathUtils.lerp(currentRotation.current.x, targetRotation.current.x, 0.04);
       currentRotation.current.y = THREE.MathUtils.lerp(currentRotation.current.y, targetRotation.current.y, 0.04);
-
+      
       groupRef.current.rotation.x = currentRotation.current.x;
       groupRef.current.rotation.y = currentRotation.current.y;
       groupRef.current.rotation.z = -mouse.current[0] * 0.06;
     }
 
     // 4. WHEEL SPIN (Reversing effect for Home Page)
-    wheelRefs.current.forEach(wheel => {
-      if (wheel) wheel.rotation.x -= 0.15;
+    wheelRefs.current.forEach(wheel => { 
+      if (wheel) wheel.rotation.x -= 0.15; 
     });
   });
 
   return (
-    <group
-      ref={groupRef}
-      scale={1.4}
+    <group 
+      ref={groupRef} 
+      scale={1.4} 
       position={[18, 2, 0]} // Initial spawn position
     >
       {/* High-Detail Car Mesh Construction */}
@@ -369,7 +369,7 @@ export default function F1CarScene() {
   return (
     <div className="absolute inset-0 z-0 w-full h-full pointer-events-auto">
       <Canvas
-        gl={{ alpha: true }}
+        gl={{ alpha: true }} 
         shadows
         dpr={[1, 2]}
         onPointerMove={(e) => {
@@ -385,11 +385,11 @@ export default function F1CarScene() {
         <directionalLight position={[-10, 12, -5]} intensity={1.2} />
         <spotLight position={[0, 8, 15]} intensity={1.8} angle={0.4} penumbra={1} color="#ffffff" />
         <pointLight position={[-8, 4, 8]} intensity={0.8} color="#a0c4ff" />
-
+        
         <Environment preset="studio" />
-
+        
         <F1Car mouse={mouse} />
-
+        
         <EffectComposer>
           <Bloom luminanceThreshold={0.75} mipmapBlur intensity={0.9} radius={0.55} />
           <ChromaticAberration offset={[0.0012, 0.0012]} />

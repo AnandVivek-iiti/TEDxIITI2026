@@ -7,6 +7,7 @@ export default function EventCard({ event, progress }) {
   const opacity = useTransform(progress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
   const y = useTransform(progress, [0, 1], [120, -120]);
 
+export default function EventCard() {
   return (
     <motion.div
       style={{ scale, opacity, y }}
