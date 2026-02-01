@@ -6,7 +6,9 @@
   --color-lap-amber:  #fea712;
   --font-body: "Inter", ui-sans-serif, system-ui, sans-serif; 
 }
-
+body {
+  cursor: none;
+}
 .bg-lap-noise {
   background-image: radial-gradient(transparent, transparent);
 }

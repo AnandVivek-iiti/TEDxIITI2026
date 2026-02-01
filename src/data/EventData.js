@@ -1,0 +1,86 @@
+// src/data/EventData.js
+const EventImages = [
+  "/events/theme.png",
+  "/events/theme.png",
+  "/events/theme.png",
+  "/events/theme.png",
+  "/events/theme.png",
+  "/events/theme.png",
+  "/events/theme.png",
+  "/events/theme.png",
+  "/events/theme.png",
+  "/events/theme.png",
+];
+ const eventsData = [
+  {
+    id: 1,
+    name: "Theme Reveal",
+     sector: "Sector 1",
+    subheading: "TEDxIITIndore revealed its F1-inspired theme -  The Uncharted lap in a grand launch event.",
+    image: EventImages[0],
+  },
+  {
+    id: 2,
+    name: "Speaker Announcement",
+     sector: "Sector 2",
+    subheading: "First set of TEDxIITIndore speakers announced with excitement.",
+    image: EventImages[1],
+  },
+  {
+    id: 3,
+    name: "Workshop Day",
+     sector: "Sector 3",
+    subheading: "Interactive workshops conducted to spark innovation and ideas.",
+    image: EventImages[2],
+  },
+  {
+    id: 4,
+    name: "Networking Evening",
+    sector:"Sector 4",
+    subheading: "An evening dedicated to networking among speakers, team, and guests.",
+    image: EventImages[3],
+  },
+  {
+    id: 5,
+    name: "Pre-TEDx Meetup",
+      sector: "Sector 5",
+    subheading: "Community meetup before the main TEDx event at IIT Indore.",
+    image: EventImages[4],
+  },
+  {
+    id: 6,
+    name: "Sponsor Reveal",
+      sector: "Sector 6",
+    subheading: "Official sponsors for TEDxIITIndore were revealed publicly.",
+    image: EventImages[5],
+  },
+  {
+    id: 7,
+    name: "Cultural Night",
+      sector: "Sector 7",
+    subheading: "A cultural night blending art, music, and storytelling.",
+    image: EventImages[6],
+  },
+  {
+    id: 8,
+    name: "Main TEDx Event",
+    sector: "Sector 8",
+    subheading: "The flagship TEDxIITIndore event with powerful talks and ideas.",
+    image: EventImages[7],
+  },
+  {
+    id: 9,
+    name: "After-Movie Launch",
+      sector: "Sector 9",
+    subheading: "Official after-movie launched capturing moments from TEDxIITIndore.",
+    image: EventImages[8],
+  },
+  {
+    id: 10,
+    name: "Team Appreciation",
+      sector: "Sector 10",
+    subheading: "A special event to appreciate the organizing team and volunteers.",
+    image: EventImages[9],
+  },
+];
+export default eventsData ;
