@@ -1,178 +1,279 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-const SPONSOR_CONFIG = [
+// --- DATA CONFIGURATION ---
+const sponsorsData = [
   {
-    id: 't1',
-    tierName: "Main Sponsor",
-    tierNumber: "01",
-    layoutClass: "pole-position",
-    members: [
-      { id: 's1', name: "Title Sponsor", img: "https://via.placeholder.com/400x150/1a0c07/FDDCA9?text=TITLE+SPONSOR" }
+    id: 'tier-1',
+    title: 'TITLE PARTNER',
+    theme: 'red',
+    size: 'large',
+    sponsors: [
+      { name: 'Google', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/2560px-Google_2015_logo.svg.png' }
     ]
   },
   {
-    id: 't2',
-    tierName: "Primary Sponsors",
-    tierNumber: "02",
-    layoutClass: "primary-grid",
-    members: [
-      { id: 's2', name: "Engine A", img: "https://via.placeholder.com/250x100/1a0c07/FDDCA9?text=ENGINE+A" },
-      { id: 's3', name: "Engine B", img: "https://via.placeholder.com/250x100/1a0c07/FDDCA9?text=ENGINE+B" }
+    id: 'tier-2',
+    title: 'ASSOCIATE PARTNERS',
+    theme: 'blue',
+    size: 'medium',
+    sponsors: [
+      { name: 'Amazon', logo: 'https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg' },
+      { name: 'Samsung', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Samsung_Logo.svg/2560px-Samsung_Logo.svg.png' },
+      { name: 'Netflix', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/2560px-Netflix_2015_logo.svg.png' }
     ]
   },
   {
-    id: 't3',
-    tierName: "Secondary Sponsors",
-    tierNumber: "03",
-    layoutClass: "secondary-grid",
-    members: [
-      { id: 's4', name: "Tech", img: "https://via.placeholder.com/200x80/1a0c07/FDDCA9?text=TECH" },
-      { id: 's5', name: "Travel", img: "https://via.placeholder.com/200x80/1a0c07/FDDCA9?text=TRAVEL" },
-      { id: 's6', name: "Food", img: "https://via.placeholder.com/200x80/1a0c07/FDDCA9?text=FOOD" }
+    id: 'tier-3',
+    title: 'SUPPORT PARTNERS',
+    theme: 'yellow',
+    size: 'small',
+    sponsors: [
+      { name: 'Spotify', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/2048px-Spotify_logo_without_text.svg.png' },
+      { name: 'Sony', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Sony_logo.svg/2560px-Sony_logo.svg.png' },
+      { name: 'BMW', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/2048px-BMW.svg.png' },
+      { name: 'Meta', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1024px-Facebook_Logo_%282019%29.png' }
     ]
   }
 ];
 
-const SponsorCard = ({ sponsor, index }) => (
-  <div
-    className="sponsor-card"
-    style={{ transitionDelay: `${index * 0.15}s` }}
-  >
-    <div className="card-accent" />
-    <img src={sponsor.img} alt={sponsor.name} loading="lazy" />
-    <div className="telemetry-tag">LVL_{index + 1} // {sponsor.id.toUpperCase()}</div>
-  </div>
-);
-
-const TierSection = React.forwardRef(({ tier }, ref) => (
-  <section className={`tier-section ${tier.layoutClass}`} ref={ref}>
-    <div className="tier-header">
-      <span className="race-number">{tier.tierNumber}</span>
-      <h2 className="tier-name">{tier.tierName}</h2>
-    </div>
-    <div className="grid-container">
-      {tier.members.map((sponsor, idx) => (
-        <SponsorCard key={sponsor.id} sponsor={sponsor} index={idx} />
-      ))}
-    </div>
-  </section>
-));
-
-const SponsorsPage = () => {
-  const sectionRefs = useRef([]);
+// --- CUSTOM HOOK ---
+const useOnScreen = (options) => {
+  const ref = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add('reveal');
-        });
-      },
-      { threshold: 0.15 }
-    );
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setIsVisible(true);
+        observer.unobserve(entry.target);
+      }
+    }, options);
 
-    sectionRefs.current.forEach((ref) => ref && observer.observe(ref));
-    return () => observer.disconnect();
-  }, []);
+    if (ref.current) observer.observe(ref.current);
 
+    return () => {
+      if (ref.current) observer.unobserve(ref.current);
+    };
+  }, [ref, options]);
+
+  return [ref, isVisible];
+};
+
+// --- SUB-COMPONENTS ---
+const SponsorCard = ({ logo, name, theme, index }) => {
+  const styleDelay = { transitionDelay: `${index * 100}ms` };
   return (
-    <div className="f1-sponsors-wrapper">
-      <Styles />
-      <div className="container">
-        <header className="page-header">
-          <h1 className="f1-title">Our Sponsors</h1>
-          <p className="subtitle">Official Partners 2025 // TEDxIITIndore</p>
-        </header>
-
-        <main>
-          {SPONSOR_CONFIG.map((tier, idx) => (
-            <TierSection
-              key={tier.id}
-              tier={tier}
-              ref={el => sectionRefs.current[idx] = el}
-            />
-          ))}
-        </main>
-      </div>
+    <div className="sponsor-card" style={styleDelay}>
+      <div className={`card-glow glow-${theme}`} />
+      <img src={logo} alt={`${name} logo`} loading="lazy" />
     </div>
   );
 };
 
-const Styles = () => (
-  <style>{`
-    :root {
-      --red: #C21717; --orange: #E76219; --gold: #FEA712;
-      --brown: #562717; --cream: #FDDCA9; --black: #1a0c07;
-    }
+const TierSection = ({ tier }) => {
+  const [ref, isVisible] = useOnScreen({ threshold: 0.15 });
 
-    .f1-sponsors-wrapper {
-      background: radial-gradient(circle at 50% 50%, var(--brown) 0%, var(--black) 100%);
-      background-attachment: fixed;
-      color: var(--cream);
-      font-family: 'Orbitron', sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+  return (
+    <section 
+      ref={ref} 
+      className={`sponsor-tier tier-${tier.theme} ${isVisible ? 'animate-in' : ''}`}
+    >
+      <div className="tier-header">
+        <h2 className="tier-title">{tier.title}</h2>
+        <div className="tier-line" />
+      </div>
+      <div className={`sponsor-grid ${tier.size}`}>
+        {tier.sponsors.map((sponsor, index) => (
+          <SponsorCard key={index} index={index} {...sponsor} theme={tier.theme} />
+        ))}
+      </div>
+    </section>
+  );
+};
 
-    .container { max-width: 1100px; margin: 0 auto; padding: 80px 20px; }
+const Hero = () => {
+  const [ref, isVisible] = useOnScreen({ threshold: 0.1 });
+  return (
+    <header ref={ref} className={`sponsors-header ${isVisible ? 'visible' : ''}`}>
+      <div className="header-content">
+        <h1><span>OUR</span> SPONSORS</h1>
+        <div className="header-decoration" />
+        <p>
+          Behind every great race is a world-class team.<br />
+          Our partners fuel the <strong>TEDxIITI</strong> journey.
+        </p>
+      </div>
+    </header>
+  );
+};
 
-    /* Header */
-    .page-header {
-      border-left: 8px solid var(--red);
-      padding-left: 25px;
-      margin-bottom: 100px;
-      position: relative;
-    }
-    .page-header::before {
-      content: "GRID_READY // STATUS: OK";
-      font-size: 0.65rem; color: var(--gold); letter-spacing: 3px;
-      position: absolute; top: -20px;
-    }
-    .f1-title { font-size: clamp(2.5rem, 7vw, 4.5rem); text-transform: uppercase; font-style: italic; font-weight: 900; }
-    .subtitle { color: var(--orange); letter-spacing: 4px; font-weight: bold; font-size: 0.9rem; }
+// --- MAIN PAGE COMPONENT ---
+const SponsorsPage = () => {
+  return (
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap');
 
-    /* Sections */
-    .tier-section { margin-bottom: 120px; opacity: 0.3; transition: opacity 0.8s ease; }
-    .tier-section.reveal { opacity: 1; }
+        :root {
+          --f1-red: #ff1e00;
+          --f1-blue: #00f0ff;
+          --f1-yellow: #fff200;
+          --bg-dark: #050505;
+          --border-dim: rgba(255, 255, 255, 0.1);
+        }
 
-    .tier-header { display: flex; align-items: center; gap: 15px; margin-bottom: 40px; }
-    .race-number { font-size: 2.5rem; color: var(--red); font-weight: 900; font-style: italic; }
-    .tier-name { text-transform: uppercase; letter-spacing: 4px; border-bottom: 2px solid var(--brown); font-size: 1.2rem; }
+        .sponsors-page {
+          font-family: 'Inter', sans-serif;
+          background-color: var(--bg-dark);
+          color: #fff;
+          min-height: 100vh;
+          overflow-x: hidden;
+          position: relative;
+        }
 
-    /* Grids */
-    .grid-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 25px;
-    }
-    .pole-position .grid-container { grid-template-columns: 1fr; max-width: 800px; margin: 0 auto; }
+        /* --- Backgrounds --- */
+        .grid-overlay {
+          position: fixed;
+          inset: 0;
+          background-image: 
+            linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+          background-size: 40px 40px;
+          z-index: 0;
+          mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+          pointer-events: none;
+        }
 
-    /* Cards */
-    .sponsor-card {
-      background: rgba(86, 39, 23, 0.4);
-      height: 220px;
-      position: relative;
-      display: flex; align-items: center; justify-content: center;
-      clip-path: polygon(0 0, 100% 0, 100% 85%, 90% 100%, 0 100%);
-      border: 1px solid rgba(255,255,255,0.05);
-      transform: translateX(100px); opacity: 0;
-      transition: all 0.8s cubic-bezier(0.2, 1, 0.3, 1);
-    }
-    .reveal .sponsor-card { transform: translateX(0); opacity: 1; }
-    .tier-section:nth-child(even) .sponsor-card { transform: translateX(-100px); }
+        .speed-lines {
+          position: fixed;
+          inset: 0;
+          background: repeating-linear-gradient(90deg, transparent 0, transparent 50px, rgba(255,255,255,0.02) 50px, rgba(255,255,255,0.02) 51px);
+          z-index: 0;
+          pointer-events: none;
+        }
 
-    .pole-position .sponsor-card { height: 320px; background: var(--brown); border-left: 6px solid var(--red); }
+        /* --- Header --- */
+        .sponsors-header {
+          padding: 140px 8% 60px;
+          position: relative;
+          z-index: 1;
+          opacity: 0;
+          transform: translateX(-30px);
+          transition: all 1s ease-out;
+        }
+        .sponsors-header.visible { opacity: 1; transform: translateX(0); }
+        .sponsors-header.visible .header-decoration { width: 80px; }
 
-    .card-accent { position: absolute; top: 0; left: 0; width: 40px; height: 40px; background: var(--red); clip-path: polygon(0 0, 100% 0, 0 100%); }
-    .telemetry-tag { position: absolute; bottom: 15px; right: 20px; font-size: 0.55rem; color: var(--gold); letter-spacing: 1px; }
-    .sponsor-card img { max-width: 70%; filter: grayscale(0.2) brightness(1.1); transition: 0.3s; }
-    .sponsor-card:hover img { filter: grayscale(0) scale(1.05); }
+        .header-content h1 {
+          font-family: 'Orbitron', sans-serif;
+          font-size: clamp(3rem, 8vw, 6rem);
+          font-weight: 900;
+          line-height: 1;
+          letter-spacing: -2px;
+          margin-bottom: 20px;
+          background: linear-gradient(180deg, #fff, #888);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+        .header-content h1 span {
+          color: var(--f1-red);
+          background: linear-gradient(180deg, var(--f1-red), #800000);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+        .header-decoration {
+          width: 0px;
+          height: 6px;
+          background: var(--f1-red);
+          margin-bottom: 25px;
+          transform: skewX(-20deg);
+          transition: width 0.8s ease 0.3s;
+        }
+        .header-content p {
+          color: #888;
+          font-size: 1.1rem;
+          max-width: 500px;
+          line-height: 1.6;
+          border-left: 2px solid rgba(255,255,255,0.2);
+          padding-left: 20px;
+        }
 
-    @media (max-width: 768px) {
-      .sponsor-card { transform: none !important; opacity: 1 !important; clip-path: none; }
-      .container { padding: 40px 15px; }
-    }
-  `}</style>
-);
+        /* --- Tiers & Grids --- */
+        .sponsor-tier { padding: 40px 8%; position: relative; z-index: 1; }
+        .tier-header { display: flex; align-items: center; gap: 20px; margin-bottom: 40px; }
+        .tier-title { font-family: 'Orbitron', sans-serif; font-size: 1.5rem; letter-spacing: 2px; white-space: nowrap; }
+        .tier-line { flex-grow: 1; height: 1px; background: linear-gradient(90deg, var(--border-dim), transparent); }
+
+        .tier-red .tier-title { color: var(--f1-red); text-shadow: 0 0 20px rgba(255, 30, 0, 0.4); }
+        .tier-blue .tier-title { color: var(--f1-blue); text-shadow: 0 0 20px rgba(0, 240, 255, 0.4); }
+        .tier-yellow .tier-title { color: var(--f1-yellow); text-shadow: 0 0 20px rgba(255, 242, 0, 0.4); }
+
+        .sponsor-grid { display: grid; gap: 30px; }
+        .sponsor-grid.large { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
+        .sponsor-grid.medium { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+        .sponsor-grid.small { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+
+        /* --- Cards --- */
+        .sponsor-card {
+          position: relative;
+          height: 160px;
+          background: rgba(20, 20, 20, 0.6);
+          clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+          border: 1px solid var(--border-dim);
+          backdrop-filter: blur(10px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          
+          /* Animation Init */
+          opacity: 0;
+          transform: translateY(30px);
+          transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Animation Trigger */
+        .animate-in .sponsor-card { opacity: 1; transform: translateY(0); }
+
+        /* Hover Effects */
+        .sponsor-card:hover {
+          transform: translateY(-5px) scale(1.02) !important;
+          background: rgba(30, 30, 30, 0.95);
+          transition-delay: 0s !important;
+        }
+        .sponsor-card img {
+          max-width: 60%;
+          max-height: 50%;
+          filter: grayscale(100%) brightness(0.7);
+          transition: 0.4s ease;
+          z-index: 2;
+        }
+        .sponsor-card:hover img { filter: grayscale(0) brightness(1.2); }
+
+        /* Theme Borders & Glows */
+        .tier-red .sponsor-card:hover { border-color: var(--f1-red); }
+        .tier-blue .sponsor-card:hover { border-color: var(--f1-blue); }
+        .tier-yellow .sponsor-card:hover { border-color: var(--f1-yellow); }
+
+        .card-glow { position: absolute; inset: 0; z-index: 1; opacity: 0; transition: opacity 0.4s ease; }
+        .sponsor-card:hover .card-glow { opacity: 0.2; }
+        .glow-red { background: radial-gradient(circle at center, var(--f1-red), transparent 70%); }
+        .glow-blue { background: radial-gradient(circle at center, var(--f1-blue), transparent 70%); }
+        .glow-yellow { background: radial-gradient(circle at center, var(--f1-yellow), transparent 70%); }
+      `}</style>
+
+      <div className="sponsors-page">
+        <div className="speed-lines" />
+        <div className="grid-overlay" />
+        <Hero />
+        <main>
+          {sponsorsData.map((tier) => (
+            <TierSection key={tier.id} tier={tier} />
+          ))}
+        </main>
+      </div>
+    </>
+  );
+};
 
 export default SponsorsPage;
