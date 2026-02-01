@@ -6,13 +6,16 @@ import Team from "./pages/Team.jsx";
 import Sponsors from "./pages/Sponsors.jsx";
 import Contact from "./pages/Contact.jsx";
 import Speakers from "./pages/Speakers.jsx";
-import Events from "./pages/Events.jsx";
+import CustomCursor from "./components/CustomCursor";
+import Events from "./pages/Events/Car.jsx";
+import Talk from "./pages/Talks/Talk.jsx";
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-lap-coffee text-lap-cream font-body bg-lap-noise">
+    <div className="min-h-screen bg-lap-coffee cursor-none text-lap-cream font-body bg-lap-noise">
+      <CustomCursor />
       <Navbar />
-      <main className="pb-20">
+      <main>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/team" element={<Team />} />
@@ -20,6 +23,7 @@ export default function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/speakers" element={<Speakers />} />
           <Route path="/events" element={<Events />} />
+          <Route path="/talk" element={<Talk />} />
         </Routes>
       </main>
       <Footer />

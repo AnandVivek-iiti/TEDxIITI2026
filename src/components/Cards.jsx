@@ -1,7 +1,7 @@
 export function SpeakerCard({ name, title, img, tag }) {
   return (
-    <div className="rounded-2xl bg-white/5 border border-white/10 overflow-hidden hover:translate-y-[-2px] transition">
-      <div className="aspect-[4/3] bg-white/5 grid place-items-center">
+    <div className="rounded-2xl bg-white/5 border border-white/10 overflow-hidden hover:-translate-y-0.5 transition">
+      <div className="aspect-4/3 bg-white/5 grid place-items-center">
         {img ? <img src={img} alt={name} className="h-full w-full object-cover"/> : <span className="opacity-40">Photo</span>}
       </div>
       <div className="p-4">
