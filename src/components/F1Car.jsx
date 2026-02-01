@@ -187,6 +187,7 @@ function Suspension({ position, isRear, isLeft }) {
 function F1Car({ mouse }) {
   const groupRef = useRef();
   const wheelRefs = useRef([]);
+
   // Animation States
   const [entryProgress, setEntryProgress] = useState(0);
   const targetRotation = useRef({ x: 0, y: 0 });

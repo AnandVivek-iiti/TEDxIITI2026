@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+
 import * as THREE from 'three';
 
 // --- CONFIGURATION ---
@@ -25,7 +26,7 @@ const styles = `
 
     /* Container for the Hero section */
     .hero-container {
-      font-family: 'Orbitron', sans-serif; 
+      font-family: 'Orbitron', sans-serif;
       color: var(--p-cream);
       width: 100%;
       height: 100vh; /* Takes full viewport height */
@@ -40,13 +41,13 @@ const styles = `
       filter: sepia(0.2) contrast(1.2) brightness(1.1);
       z-index: 0;
     }
-    
+
     .scanlines {
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
       background: repeating-linear-gradient(0deg, rgba(86, 39, 23, 0.2) 0px, transparent 1px, transparent 3px);
-      pointer-events: none; 
+      pointer-events: none;
       z-index: 1;
     }
 
@@ -92,7 +93,7 @@ const styles = `
       color: var(--p-red);
       text-shadow: 0 0 30px rgba(194, 23, 23, 0.6);
     }
-    
+
     /* Responsive adjustment for smaller screens */
     @media (max-width: 1024px) {
         .title-white { font-size: 1.5rem; }
@@ -102,7 +103,7 @@ const styles = `
 
     .footer-hud {
       display: flex; justify-content: space-between; align-items: flex-end;
-      width: 100%; 
+      width: 100%;
       pointer-events: auto;
     }
 
@@ -111,17 +112,17 @@ const styles = `
       font-size: 5rem; font-weight: 900; line-height: 1;
       color: var(--p-cream);
       text-shadow: 0 0 20px var(--p-orange);
-      font-variant-numeric: tabular-nums; 
+      font-variant-numeric: tabular-nums;
     }
     .speed-unit { font-size: 1rem; color: var(--p-red); font-weight: 700; letter-spacing: 2px; }
 
     .register-btn {
       display: inline-block;
-      background: var(--p-orange); 
-      color: var(--p-brown); 
+      background: var(--p-orange);
+      color: var(--p-brown);
       text-decoration: none;
       border: none;
-      padding: 20px 60px; 
+      padding: 20px 60px;
       font-family: 'Orbitron', sans-serif;
       font-size: 1.2rem; font-weight: 900; text-transform: uppercase;
       clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
@@ -129,7 +130,7 @@ const styles = `
       cursor: pointer;
     }
     .register-btn:hover {
-      background: var(--p-yellow); 
+      background: var(--p-yellow);
       box-shadow: 0 0 40px var(--p-orange);
       transform: scale(1.05);
       color: var(--p-brown);
@@ -155,7 +156,7 @@ const Hero = () => {
 
     // 1. Setup
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x2a0f0a, 0.02); 
+    scene.fog = new THREE.FogExp2(0x2a0f0a, 0.02);
 
     const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0, 3.5, 10);
@@ -167,7 +168,7 @@ const Hero = () => {
 
     // 2. Lights
     scene.add(new THREE.AmbientLight(PALETTE.cream, 0.6));
-    
+
     const topLight = new THREE.SpotLight(0xffffff, 3);
     topLight.position.set(0, 20, 10);
     topLight.angle = Math.PI / 4;
@@ -184,7 +185,7 @@ const Hero = () => {
 
     // 3. CAR MODEL
     const carGroup = new THREE.Group();
-    const wheels = []; 
+    const wheels = [];
 
     // Materials
     const bodyMat = new THREE.MeshStandardMaterial({ color: 0xFF0000, emissive: 0x330000, metalness: 0.9, roughness: 0.05 });
@@ -197,7 +198,7 @@ const Hero = () => {
     const chassis = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.5, 3.5, 4), bodyMat);
     chassis.rotation.x = Math.PI / 2;
     chassis.position.set(0, 0.45, 0.5);
-    
+
     const nose = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.3, 1.4, 4), accentMat);
     nose.rotation.x = Math.PI / 2;
     nose.position.set(0, 0.35, 2.7);
@@ -206,7 +207,7 @@ const Hero = () => {
     // Floor & Sidepods
     const floor = new THREE.Mesh(new THREE.BoxGeometry(1.9, 0.05, 4.5), carbonMat);
     floor.position.y = 0.15;
-    
+
     const sidePodGeo = new THREE.BoxGeometry(0.65, 0.45, 2.0);
     const sidePodL = new THREE.Mesh(sidePodGeo, bodyMat);
     sidePodL.position.set(0.7, 0.35, 0.2);
@@ -234,15 +235,15 @@ const Hero = () => {
     const wheelGeo = new THREE.CylinderGeometry(0.48, 0.48, 0.65, 32);
     wheelGeo.rotateZ(Math.PI / 2);
     const rimGeo = new THREE.TorusGeometry(0.28, 0.03, 12, 32);
-    const spokeGeo = new THREE.BoxGeometry(0.7, 0.1, 0.1); 
+    const spokeGeo = new THREE.BoxGeometry(0.7, 0.1, 0.1);
 
     const makeWheel = (x, z, isRear) => {
         const group = new THREE.Group();
-        
+
         // 1. Tire
         const tire = new THREE.Mesh(wheelGeo, wheelMat);
         if (isRear) tire.scale.set(1.1, 1.3, 1.3);
-        
+
         // 2. Rim (Glowing Ring)
         const rim = new THREE.Mesh(rimGeo, glowYellow);
         rim.rotation.y = Math.PI / 2;
@@ -255,8 +256,8 @@ const Hero = () => {
 
         group.add(tire, rim, spoke);
         group.position.set(x, 0.48, z);
-        
-        wheels.push(group); 
+
+        wheels.push(group);
         return group;
     };
 
@@ -273,7 +274,7 @@ const Hero = () => {
     scene.add(carGroup);
 
     // 4. MOVING ENVIRONMENT
-    const gridSize = 400; 
+    const gridSize = 400;
     const gridDivs = 80;
     const gridHelper = new THREE.GridHelper(gridSize, gridDivs, 0xC21717, 0x444444);
     gridHelper.position.y = -0.1;
@@ -297,9 +298,9 @@ const Hero = () => {
     const particleGeo = new THREE.BufferGeometry();
     const particlePos = new Float32Array(particleCount * 3);
     for(let i=0; i<particleCount*3; i+=3) {
-        particlePos[i] = (Math.random() - 0.5) * 50; 
-        particlePos[i+1] = Math.random() * 20;       
-        particlePos[i+2] = Math.random() * -200;     
+        particlePos[i] = (Math.random() - 0.5) * 50;
+        particlePos[i+1] = Math.random() * 20;
+        particlePos[i+2] = Math.random() * -200;
     }
     particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePos, 3));
     const particleMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.2, transparent: true, opacity: 0.6 });
@@ -320,7 +321,7 @@ const Hero = () => {
     };
     const onMouseDown = () => { isTurbo = true; };
     const onMouseUp = () => { isTurbo = false; };
-    
+
     const onResize = () => {
        camera.aspect = window.innerWidth / window.innerHeight;
        camera.updateProjectionMatrix();
@@ -342,7 +343,7 @@ const Hero = () => {
 
       // 2. Wheel Spin
       wheels.forEach(w => {
-          w.rotation.x -= speed * 0.2; 
+          w.rotation.x -= speed * 0.2;
       });
 
       // 3. Move Environment
@@ -360,7 +361,7 @@ const Hero = () => {
       // Particles
       const positions = particleSystem.geometry.attributes.position.array;
       for(let i=2; i<particleCount*3; i+=3) {
-          positions[i] += speed * 2.0; 
+          positions[i] += speed * 2.0;
           if(positions[i] > 20) positions[i] = -200;
       }
       particleSystem.geometry.attributes.position.needsUpdate = true;
@@ -419,13 +420,13 @@ const Hero = () => {
     <div className="hero-container">
       {/* Inject custom styles */}
       <style>{styles}</style>
-      
+
       {/* 3D Canvas Mount Point */}
       <div id="canvas-wrapper" ref={mountRef}></div>
-      
+
       {/* Overlay Elements */}
       <div className="scanlines"></div>
-      
+
       <div className="global-hud">
         {/* NEW HEADER SECTION */}
         <div className="header-hud">
@@ -443,7 +444,7 @@ const Hero = () => {
         </div>
       </div>
     </div>
-    
+
   );
 };
 

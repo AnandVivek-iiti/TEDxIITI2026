@@ -26,17 +26,17 @@ export default function TalksPage() {
 
   return (
     <div className="relative min-h-screen text-white bg-[#050505] selection:bg-red-600 overflow-x-hidden font-orbitron-global">
-
       {/* Background Component */}
       <WarpBackground />
 
       {/* Content Container */}
       <div className="relative z-10">
-
         {/* ===== HERO SECTION ===== */}
         <section className="pt-20 sm:pt-32 pb-12 sm:pb-16 flex flex-col items-center justify-center text-center px-4">
           <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter italic mb-4 sm:mb-6">
-            <span className="text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">Race of </span>
+            <span className="text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+              Race of{" "}
+            </span>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-orange-600 drop-shadow-[0_0_25px_rgba(220,38,38,0.5)]">
               Ideas
             </span>
@@ -67,7 +67,7 @@ export default function TalksPage() {
                     : "bg-neutral-900/80 text-neutral-500 hover:text-white hover:bg-neutral-800 border border-neutral-800"
                 }`}
                 style={{
-                  clipPath: 'polygon(10% 0, 100% 0, 90% 100%, 0% 100%)'
+                  clipPath: "polygon(10% 0, 100% 0, 90% 100%, 0% 100%)",
                 }}
               >
                 {y}
@@ -94,17 +94,19 @@ export default function TalksPage() {
                     {/* FRONT SIDE */}
                     <div className="absolute inset-0 backface-hidden w-full h-full flex flex-col bg-[#0a0a0a]">
                       <div className="relative h-3/5 w-full bg-black overflow-hidden border-b border-red-600/20">
-                         {/* Scanning Line (Active Only) */}
-                        <div className={`absolute inset-0 z-20 pointer-events-none transition-opacity duration-300 ${flippedIndex === i ? 'opacity-0' : 'opacity-0 group-hover/card:opacity-100'}`}>
+                        {/* Scanning Line (Active Only) */}
+                        <div
+                          className={`absolute inset-0 z-20 pointer-events-none transition-opacity duration-300 ${flippedIndex === i ? "opacity-0" : "opacity-0 group-hover/card:opacity-100"}`}
+                        >
                           <div className="h-1/2 w-full bg-gradient-to-b from-red-500/10 to-transparent absolute top-[-50%] animate-scan" />
                         </div>
 
-                          <iframe
-      src={getEmbedUrl(talk.link)}
-      title={talk.title}
-      className="w-full h-full"
-      allowFullScreen
-    />
+                        <iframe
+                          src={getEmbedUrl(talk.link)}
+                          title={talk.title}
+                          className="w-full h-full"
+                          allowFullScreen
+                        />
                       </div>
 
                       <div className="flex-grow p-4 sm:p-6 flex flex-col justify-center relative">
@@ -121,7 +123,9 @@ export default function TalksPage() {
                     {/* BACK SIDE (Telemetry Data) */}
                     <div className="absolute inset-0 backface-hidden w-full h-full bg-[#080808] p-5 sm:p-6 lg:p-8 rotate-y-180 flex flex-col">
                       <div className="border-l-4 border-red-600 pl-3 sm:pl-5 mb-4 sm:mb-6">
-                        <p className="text-[9px] sm:text-[10px] text-neutral-500 uppercase tracking-widest mb-1 font-bold">Speaker_ID</p>
+                        <p className="text-[9px] sm:text-[10px] text-neutral-500 uppercase tracking-widest mb-1 font-bold">
+                          Speaker_ID
+                        </p>
                         <h2 className="text-lg sm:text-xl lg:text-2xl font-black italic uppercase text-white tracking-tight">
                           {talk.speaker}
                         </h2>
@@ -157,11 +161,15 @@ export default function TalksPage() {
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          window.open(talk.link, "_blank", "noopener,noreferrer");
+                          window.open(
+                            talk.link,
+                            "_blank",
+                            "noopener,noreferrer",
+                          );
                         }}
                         className="mt-4 w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 sm:py-3 text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 shadow-[0_0_15px_rgba(220,38,38,0.4)] hover:shadow-[0_0_25px_rgba(220,38,38,0.6)]"
                         style={{
-                          clipPath: 'polygon(5% 0, 100% 0, 95% 100%, 0% 100%)'
+                          clipPath: "polygon(5% 0, 100% 0, 95% 100%, 0% 100%)",
                         }}
                       >
                         Watch Talk →

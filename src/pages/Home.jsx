@@ -1,6 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
-import * as THREE from 'three';
-
+import React, { useEffect, useRef, useState } from "react";
+import * as THREE from "three";
+import Hero from "../components/Hero.jsx";
+import Venue from "../components/Venue.jsx";
+import F1Car from "../components/F1Car.jsx";
+import WhatIsTedx from "../components/WhatIsTedx.jsx";
 // --- CONFIGURATION ---
 const PALETTE = {
   brown: 0x5a2a1b,
@@ -270,7 +273,7 @@ const styles = `
 `;
 
 const TedxIITIndore = () => {
-  const [activePage, setActivePage] = useState('home');
+  const [activePage, setActivePage] = useState("home");
 
   const mountRef = useRef(null);
   const cursorDotRef = useRef(null);
@@ -279,55 +282,57 @@ const TedxIITIndore = () => {
 
   // Simplified Nav Items (Removed Icons)
   const navItems = [
-    { id: 'home', label: 'HOME' },
-    { id: 'about', label: 'ABOUT' },
-    { id: 'team', label: 'TEAM' },
-    { id: 'speakers', label: 'SPEAKERS' },
-    { id: 'sponsors', label: 'SPONSORS' },
-    { id: 'contact', label: 'CONTACT' },
+    { id: "home", label: "HOME" },
+    { id: "about", label: "ABOUT" },
+    { id: "team", label: "TEAM" },
+    { id: "speakers", label: "SPEAKERS" },
+    { id: "sponsors", label: "SPONSORS" },
+    { id: "contact", label: "CONTACT" },
   ];
 
   // ===============================
   // 1️⃣ CURSOR LOGIC
   // ===============================
   useEffect(() => {
-    let mX = window.innerWidth / 2, mY = window.innerHeight / 2;
-    let ringX = mX, ringY = mY;
+    let mX = window.innerWidth / 2,
+      mY = window.innerHeight / 2;
+    let ringX = mX,
+      ringY = mY;
     let requestID;
 
     const handleMouseMove = (e) => {
       mX = e.clientX;
       mY = e.clientY;
       if (cursorDotRef.current) {
-        cursorDotRef.current.style.left = mX + 'px';
-        cursorDotRef.current.style.top = mY + 'px';
+        cursorDotRef.current.style.left = mX + "px";
+        cursorDotRef.current.style.top = mY + "px";
       }
     };
 
-    const handleMouseDown = () => document.body.classList.add('clicking');
-    const handleMouseUp = () => document.body.classList.remove('clicking');
+    const handleMouseDown = () => document.body.classList.add("clicking");
+    const handleMouseUp = () => document.body.classList.remove("clicking");
 
     const animateCursor = () => {
       ringX += (mX - ringX) * 0.15;
       ringY += (mY - ringY) * 0.15;
       if (cursorRingRef.current) {
-        cursorRingRef.current.style.left = ringX + 'px';
-        cursorRingRef.current.style.top = ringY + 'px';
+        cursorRingRef.current.style.left = ringX + "px";
+        cursorRingRef.current.style.top = ringY + "px";
       }
       requestID = requestAnimationFrame(animateCursor);
     };
 
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mousedown', handleMouseDown);
-    document.addEventListener('mouseup', handleMouseUp);
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mousedown", handleMouseDown);
+    document.addEventListener("mouseup", handleMouseUp);
     animateCursor();
 
     return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mousedown', handleMouseDown);
-      document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mousedown", handleMouseDown);
+      document.removeEventListener("mouseup", handleMouseUp);
       cancelAnimationFrame(requestID);
-      document.body.classList.remove('clicking', 'hovering');
+      document.body.classList.remove("clicking", "hovering");
     };
   }, []);
 
@@ -342,7 +347,12 @@ const TedxIITIndore = () => {
     const scene = new THREE.Scene();
     scene.fog = new THREE.FogExp2(0x2a0f0a, 0.015);
 
-    const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(
+      70,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000,
+    );
     camera.position.set(0, 3.5, 10);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
@@ -368,23 +378,53 @@ const TedxIITIndore = () => {
 
     const carGroup = new THREE.Group();
 
-    const bodyMat = new THREE.MeshStandardMaterial({ color: 0xFF0000, emissive: 0x330000, metalness: 0.9, roughness: 0.05 });
-    const accentMat = new THREE.MeshStandardMaterial({ color: 0xFFFFFF, emissive: 0x222222, metalness: 0.5, roughness: 0.1 });
-    const carbonMat = new THREE.MeshStandardMaterial({ color: 0x1a1a1a, metalness: 0.8, roughness: 0.2 });
-    const glowYellow = new THREE.MeshStandardMaterial({ color: 0xFFFF00, emissive: 0xFFFF00, emissiveIntensity: 1.5 });
-    const wheelMat = new THREE.MeshStandardMaterial({ color: 0x000000, roughness: 0.4 });
+    const bodyMat = new THREE.MeshStandardMaterial({
+      color: 0xff0000,
+      emissive: 0x330000,
+      metalness: 0.9,
+      roughness: 0.05,
+    });
+    const accentMat = new THREE.MeshStandardMaterial({
+      color: 0xffffff,
+      emissive: 0x222222,
+      metalness: 0.5,
+      roughness: 0.1,
+    });
+    const carbonMat = new THREE.MeshStandardMaterial({
+      color: 0x1a1a1a,
+      metalness: 0.8,
+      roughness: 0.2,
+    });
+    const glowYellow = new THREE.MeshStandardMaterial({
+      color: 0xffff00,
+      emissive: 0xffff00,
+      emissiveIntensity: 1.5,
+    });
+    const wheelMat = new THREE.MeshStandardMaterial({
+      color: 0x000000,
+      roughness: 0.4,
+    });
 
-    const chassis = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.5, 3.5, 4), bodyMat);
+    const chassis = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.3, 0.5, 3.5, 4),
+      bodyMat,
+    );
     chassis.rotation.x = Math.PI / 2;
     chassis.position.set(0, 0.45, 0.5);
 
-    const nose = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.3, 1.4, 4), accentMat);
+    const nose = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.05, 0.3, 1.4, 4),
+      accentMat,
+    );
     nose.rotation.x = Math.PI / 2;
     nose.position.set(0, 0.35, 2.7);
 
     carGroup.add(chassis, nose);
 
-    const floor = new THREE.Mesh(new THREE.BoxGeometry(1.9, 0.05, 4.5), carbonMat);
+    const floor = new THREE.Mesh(
+      new THREE.BoxGeometry(1.9, 0.05, 4.5),
+      carbonMat,
+    );
     floor.position.y = 0.15;
 
     const sidePodGeo = new THREE.BoxGeometry(0.65, 0.45, 2.0);
@@ -397,20 +437,39 @@ const TedxIITIndore = () => {
 
     carGroup.add(floor, sidePodL, sidePodR);
 
-    const fWingMain = new THREE.Mesh(new THREE.BoxGeometry(2.8, 0.05, 0.8), carbonMat);
+    const fWingMain = new THREE.Mesh(
+      new THREE.BoxGeometry(2.8, 0.05, 0.8),
+      carbonMat,
+    );
     fWingMain.position.set(0, 0.2, 2.8);
-    const fEndplate = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.35, 0.8), bodyMat);
-    const fEndplateL = fEndplate.clone(); fEndplateL.position.set(1.4, 0.3, 2.8);
-    const fEndplateR = fEndplate.clone(); fEndplateR.position.set(-1.4, 0.3, 2.8);
+    const fEndplate = new THREE.Mesh(
+      new THREE.BoxGeometry(0.05, 0.35, 0.8),
+      bodyMat,
+    );
+    const fEndplateL = fEndplate.clone();
+    fEndplateL.position.set(1.4, 0.3, 2.8);
+    const fEndplateR = fEndplate.clone();
+    fEndplateR.position.set(-1.4, 0.3, 2.8);
     carGroup.add(fWingMain, fEndplateL, fEndplateR);
 
-    const rWingLower = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.05, 0.6), carbonMat);
+    const rWingLower = new THREE.Mesh(
+      new THREE.BoxGeometry(2.4, 0.05, 0.6),
+      carbonMat,
+    );
     rWingLower.position.set(0, 0.9, -2.1);
-    const rWingUpper = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.15, 0.5), bodyMat);
+    const rWingUpper = new THREE.Mesh(
+      new THREE.BoxGeometry(2.4, 0.15, 0.5),
+      bodyMat,
+    );
     rWingUpper.position.set(0, 1.15, -2.2);
-    const rEndplate = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.9, 1.0), carbonMat);
-    const rEndplateL = rEndplate.clone(); rEndplateL.position.set(1.2, 0.8, -2.1);
-    const rEndplateR = rEndplate.clone(); rEndplateR.position.set(-1.2, 0.8, -2.1);
+    const rEndplate = new THREE.Mesh(
+      new THREE.BoxGeometry(0.05, 0.9, 1.0),
+      carbonMat,
+    );
+    const rEndplateL = rEndplate.clone();
+    rEndplateL.position.set(1.2, 0.8, -2.1);
+    const rEndplateR = rEndplate.clone();
+    rEndplateR.position.set(-1.2, 0.8, -2.1);
     carGroup.add(rWingLower, rWingUpper, rEndplateL, rEndplateR);
 
     const wheelGeo = new THREE.CylinderGeometry(0.48, 0.48, 0.65, 32);
@@ -418,17 +477,17 @@ const TedxIITIndore = () => {
     const rimGeo = new THREE.TorusGeometry(0.28, 0.03, 12, 32);
 
     const makeWheel = (x, z, isRear) => {
-        const group = new THREE.Group();
-        const tire = new THREE.Mesh(wheelGeo, wheelMat);
-        if (isRear) tire.scale.set(1.1, 1.3, 1.3);
+      const group = new THREE.Group();
+      const tire = new THREE.Mesh(wheelGeo, wheelMat);
+      if (isRear) tire.scale.set(1.1, 1.3, 1.3);
 
-        const rim = new THREE.Mesh(rimGeo, glowYellow);
-        rim.rotation.y = Math.PI / 2;
-        rim.position.x = x > 0 ? 0.33 : -0.33;
+      const rim = new THREE.Mesh(rimGeo, glowYellow);
+      rim.rotation.y = Math.PI / 2;
+      rim.position.x = x > 0 ? 0.33 : -0.33;
 
-        group.add(tire, rim);
-        group.position.set(x, 0.48, z);
-        return group;
+      group.add(tire, rim);
+      group.position.set(x, 0.48, z);
+      return group;
     };
 
     carGroup.add(makeWheel(1.4, 1.9, false));
@@ -436,7 +495,10 @@ const TedxIITIndore = () => {
     carGroup.add(makeWheel(1.4, -1.7, true));
     carGroup.add(makeWheel(-1.4, -1.7, true));
 
-    const helmet = new THREE.Mesh(new THREE.SphereGeometry(0.18, 16, 16), new THREE.MeshStandardMaterial({ color: 0xff0000 }));
+    const helmet = new THREE.Mesh(
+      new THREE.SphereGeometry(0.18, 16, 16),
+      new THREE.MeshStandardMaterial({ color: 0xff0000 }),
+    );
     helmet.position.set(0, 0.85, -0.2);
     carGroup.add(helmet);
 
@@ -444,41 +506,53 @@ const TedxIITIndore = () => {
 
     const gridSize = 400;
     const gridDivs = 80;
-    const gridHelper = new THREE.GridHelper(gridSize, gridDivs, 0xC21717, 0x444444);
+    const gridHelper = new THREE.GridHelper(
+      gridSize,
+      gridDivs,
+      0xc21717,
+      0x444444,
+    );
     gridHelper.position.y = -0.1;
     scene.add(gridHelper);
 
     const roadGroup = new THREE.Group();
     const dashGeo = new THREE.PlaneGeometry(0.3, 4);
     const dashMat = new THREE.MeshBasicMaterial({ color: PALETTE.yellow });
-    for(let i = 0; i < 20; i++) {
-        const dash = new THREE.Mesh(dashGeo, dashMat);
-        dash.rotation.x = -Math.PI / 2;
-        dash.position.y = -0.05;
-        dash.position.z = -200 + (i * 15);
-        roadGroup.add(dash);
+    for (let i = 0; i < 20; i++) {
+      const dash = new THREE.Mesh(dashGeo, dashMat);
+      dash.rotation.x = -Math.PI / 2;
+      dash.position.y = -0.05;
+      dash.position.z = -200 + i * 15;
+      roadGroup.add(dash);
     }
     scene.add(roadGroup);
 
     const tunnelGroup = new THREE.Group();
-    const tunnelColors = [PALETTE.red, PALETTE.orange, PALETTE.yellow, PALETTE.cream];
-    const tunnelMats = tunnelColors.map(c => new THREE.MeshBasicMaterial({ color: c }));
+    const tunnelColors = [
+      PALETTE.red,
+      PALETTE.orange,
+      PALETTE.yellow,
+      PALETTE.cream,
+    ];
+    const tunnelMats = tunnelColors.map(
+      (c) => new THREE.MeshBasicMaterial({ color: c }),
+    );
     const tunnelGeo = new THREE.BoxGeometry(0.05, 0.05, 10);
 
-    for(let i = 0; i < 60; i++) {
-        const matIndex = Math.floor(Math.random() * tunnelMats.length);
-        const tLine = new THREE.Mesh(tunnelGeo, tunnelMats[matIndex]);
+    for (let i = 0; i < 60; i++) {
+      const matIndex = Math.floor(Math.random() * tunnelMats.length);
+      const tLine = new THREE.Mesh(tunnelGeo, tunnelMats[matIndex]);
 
-        const ang = Math.random() * Math.PI * 2;
-        const rad = 8 + Math.random() * 6;
+      const ang = Math.random() * Math.PI * 2;
+      const rad = 8 + Math.random() * 6;
 
-        tLine.position.set(
-            Math.cos(ang) * rad,
-            Math.sin(ang) * rad,
-            Math.random() * -100
-        );
-        tLine.scale.z = 1 + Math.random();
-        tunnelGroup.add(tLine);
+      tLine.position.set(
+        Math.cos(ang) * rad,
+        Math.sin(ang) * rad,
+        Math.random() * -100,
+      );
+      tLine.scale.z = 1 + Math.random();
+      tunnelGroup.add(tLine);
     }
     scene.add(tunnelGroup);
 
@@ -489,21 +563,25 @@ const TedxIITIndore = () => {
     let animId;
 
     const onMouseMove = (e) => {
-        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+      mouseX = (e.clientX / window.innerWidth) * 2 - 1;
     };
-    const onMouseDown = () => { isTurbo = true; };
-    const onMouseUp = () => { isTurbo = false; };
+    const onMouseDown = () => {
+      isTurbo = true;
+    };
+    const onMouseUp = () => {
+      isTurbo = false;
+    };
 
     const onResize = () => {
-       camera.aspect = window.innerWidth / window.innerHeight;
-       camera.updateProjectionMatrix();
-       renderer.setSize(window.innerWidth, window.innerHeight);
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
     };
 
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('mousedown', onMouseDown);
-    window.addEventListener('mouseup', onMouseUp);
-    window.addEventListener('resize', onResize);
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mousedown", onMouseDown);
+    window.addEventListener("mouseup", onMouseUp);
+    window.addEventListener("resize", onResize);
 
     const animate = () => {
       animId = requestAnimationFrame(animate);
@@ -514,37 +592,57 @@ const TedxIITIndore = () => {
       const gridCellSize = gridSize / gridDivs;
       gridHelper.position.z += speed * 0.5;
       if (gridHelper.position.z > gridCellSize) {
-         gridHelper.position.z %= gridCellSize;
+        gridHelper.position.z %= gridCellSize;
       }
 
-      roadGroup.children.forEach(dash => {
-         dash.position.z += speed * 0.5;
-         if(dash.position.z > 10) dash.position.z = -280;
+      roadGroup.children.forEach((dash) => {
+        dash.position.z += speed * 0.5;
+        if (dash.position.z > 10) dash.position.z = -280;
       });
 
-      tunnelGroup.children.forEach(p => {
-         p.position.z += speed * 1.0;
-         if(p.position.z > 20) p.position.z = -100;
+      tunnelGroup.children.forEach((p) => {
+        p.position.z += speed * 1.0;
+        if (p.position.z > 20) p.position.z = -100;
       });
 
-      carGroup.rotation.y = THREE.MathUtils.lerp(carGroup.rotation.y, Math.PI - (mouseX * 0.5), 0.1);
-      carGroup.rotation.z = THREE.MathUtils.lerp(carGroup.rotation.z, mouseX * 0.1, 0.1);
-      carGroup.position.x = THREE.MathUtils.lerp(carGroup.position.x, mouseX * 5, 0.05);
+      carGroup.rotation.y = THREE.MathUtils.lerp(
+        carGroup.rotation.y,
+        Math.PI - mouseX * 0.5,
+        0.1,
+      );
+      carGroup.rotation.z = THREE.MathUtils.lerp(
+        carGroup.rotation.z,
+        mouseX * 0.1,
+        0.1,
+      );
+      carGroup.position.x = THREE.MathUtils.lerp(
+        carGroup.position.x,
+        mouseX * 5,
+        0.05,
+      );
 
-      camera.position.x = THREE.MathUtils.lerp(camera.position.x, carGroup.position.x * 0.6, 0.1);
+      camera.position.x = THREE.MathUtils.lerp(
+        camera.position.x,
+        carGroup.position.x * 0.6,
+        0.1,
+      );
 
-      if(isTurbo) {
-         camera.fov = THREE.MathUtils.lerp(camera.fov, 90, 0.05);
-         camera.position.y = 3 + (Math.random() - 0.5) * 0.1;
+      if (isTurbo) {
+        camera.fov = THREE.MathUtils.lerp(camera.fov, 90, 0.05);
+        camera.position.y = 3 + (Math.random() - 0.5) * 0.1;
       } else {
-         camera.fov = THREE.MathUtils.lerp(camera.fov, 70, 0.05);
-         camera.position.y = THREE.MathUtils.lerp(camera.position.y, 3.5, 0.1);
+        camera.fov = THREE.MathUtils.lerp(camera.fov, 70, 0.05);
+        camera.position.y = THREE.MathUtils.lerp(camera.position.y, 3.5, 0.1);
       }
       camera.updateProjectionMatrix();
 
-      displaySpeed = Math.floor(THREE.MathUtils.lerp(displaySpeed, speed * 150, 0.1));
-      if(speedometerRef.current) {
-         speedometerRef.current.innerText = displaySpeed.toString().padStart(3, '0');
+      displaySpeed = Math.floor(
+        THREE.MathUtils.lerp(displaySpeed, speed * 150, 0.1),
+      );
+      if (speedometerRef.current) {
+        speedometerRef.current.innerText = displaySpeed
+          .toString()
+          .padStart(3, "0");
       }
 
       renderer.render(scene, camera);
@@ -553,115 +651,47 @@ const TedxIITIndore = () => {
     animate();
 
     return () => {
-  window.removeEventListener('mousemove', onMouseMove);
-  window.removeEventListener('mousedown', onMouseDown);
-  window.removeEventListener('mouseup', onMouseUp);
-  window.removeEventListener('resize', onResize);
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mousedown", onMouseDown);
+      window.removeEventListener("mouseup", onMouseUp);
+      window.removeEventListener("resize", onResize);
 
-  cancelAnimationFrame(animId);
+      cancelAnimationFrame(animId);
 
-  scene.traverse((obj) => {
-    if (obj.geometry) obj.geometry.dispose();
-    if (obj.material) {
-      if (Array.isArray(obj.material)) {
-        obj.material.forEach(m => m.dispose());
-      } else {
-        obj.material.dispose();
+      scene.traverse((obj) => {
+        if (obj.geometry) obj.geometry.dispose();
+        if (obj.material) {
+          if (Array.isArray(obj.material)) {
+            obj.material.forEach((m) => m.dispose());
+          } else {
+            obj.material.dispose();
+          }
+        }
+      });
+
+      renderer.dispose();
+
+      if (mountRef.current && renderer.domElement) {
+        mountRef.current.removeChild(renderer.domElement);
       }
-    }
-  });
 
-  renderer.dispose();
-
-  if (mountRef.current && renderer.domElement) {
-    mountRef.current.removeChild(renderer.domElement);
-  }
-
-  THREE.ColorManagement.enabled = true;
-};
-
+      THREE.ColorManagement.enabled = true;
+    };
   }, []);
 
-  const handleHoverStart = () => document.body.classList.add('hovering');
-  const handleHoverEnd = () => document.body.classList.remove('hovering');
+  const handleHoverStart = () => document.body.classList.add("hovering");
+  const handleHoverEnd = () => document.body.classList.remove("hovering");
 
   return (
-    <>
-      <style>{styles}</style>
-
-      {/* CURSOR */}
-      <div id="cursor-dot" ref={cursorDotRef}></div>
-      <div id="cursor-ring" ref={cursorRingRef}></div>
-
-      {/* HERO CANVAS */}
-      <div id="canvas-wrapper" ref={mountRef}></div>
-      <div className="scanlines"></div>
-
-      {/* HUD CONTAINER */}
-      <div className="global-hud">
-
-        {/* TOP HEADER: BRAND + NAV */}
-        <header>
-          <div className="brand" onMouseEnter={handleHoverStart} onMouseLeave={handleHoverEnd}>
-            <div>The Uncharted Lap</div>
-            <div style={{ fontSize: '1.2rem', letterSpacing: '4px', opacity: 0.8 }}>TedxIITIndore</div>
-          </div>
-
-          {/* TOP NAVIGATION (Horizontal, No Icons) */}
-          <nav>
-            {navItems.map(item => (
-              <a
-                key={item.id}
-                className={activePage === item.id ? 'active' : ''}
-                onClick={() => setActivePage(item.id)}
-                onMouseEnter={handleHoverStart}
-                onMouseLeave={handleHoverEnd}
-                role="button"
-              >
-                {item.label}
-              </a>
-            ))}
-          </nav>
-        </header>
-
-        {/* BOTTOM HUD */}
-        <div className="footer-hud">
-          <div className="speed-gauge">
-            <div className="speed-val" ref={speedometerRef}>000</div>
-            <div className="speed-unit">KM/H</div>
-          </div>
-          <button className="register-btn" onMouseEnter={handleHoverStart} onMouseLeave={handleHoverEnd}>
-            Get Tickets
-          </button>
-        </div>
-      </div>
-
-      {/* CONTENT PAGES */}
-      <section className={`page-screen ${activePage === 'about' ? 'active-page' : ''}`}>
-        <h2>ABOUT THE EVENT</h2>
-        <p>TEDxIITIndore is an independently organized event dedicated to ideas worth spreading. Join us as we explore the uncharted territories of innovation and speed.</p>
-      </section>
-
-      <section className={`page-screen ${activePage === 'team' ? 'active-page' : ''}`}>
-        <h2>OUR RACE CREW</h2>
-        <p>The TEDxIITIndore organizing team is comprised of dedicated students and faculty pushing the boundaries of what is possible.</p>
-      </section>
-
-      <section className={`page-screen ${activePage === 'speakers' ? 'active-page' : ''}`}>
-        <h2>THE PILOTS</h2>
-        <p>Meet the extraordinary speakers who steer the conversation toward the future.</p>
-      </section>
-
-      <section className={`page-screen ${activePage === 'sponsors' ? 'active-page' : ''}`}>
-        <h2>POWERING THE ENGINE</h2>
-        <p>Our sponsors fuel the ambition and scale of our event.</p>
-      </section>
-
-      <section className={`page-screen ${activePage === 'contact' ? 'active-page' : ''}`}>
-        <h2>COMMUNICATION PORT</h2>
-        <p>Reach out to us for queries, partnerships, or just to talk about the race.</p>
-      </section>
-    </>
+    <div className="relative w-full min-h-screen bg-[#050505] text-white overflow-x-hidden selection:bg-red-600 selection:text-white">
+      <Hero />
+      {/* <WarpBackground /> */}
+      <main className="relative z-20 bg-black">
+        <WhatIsTedx />
+        <Venue />
+        {/* <Footer /> */}
+      </main>
+    </div>
   );
 };
 
