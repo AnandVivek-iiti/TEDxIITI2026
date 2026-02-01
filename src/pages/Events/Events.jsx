@@ -1,7 +1,7 @@
 import React from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import eventsData from "../../data/EventData";
-
+import Car from "./Animation.jsx";
 /* -----------------------------------------
    EVENT FRAME COMPONENT
 ------------------------------------------ */
@@ -238,7 +238,7 @@ export default function UnchartedLapScroll() {
       <style>{`
 
 
-     
+
 
         .car-container {
           animation: engineShake 0.15s infinite ease-in-out;
