@@ -24,10 +24,14 @@ export default function WhatIsTedx() {
 
   return (
     <section ref={sectionRef} className="relative py-32 px-4 md:px-24 overflow-hidden bg-black z-20">
+      
+      {/* --- ADDED: Top Red Line --- */}
+      <div className="absolute top-0 left-0 right-0 h-2 bg-linear-to-r from-transparent via-red-600 to-transparent"></div>
+
       <div className="absolute inset-0 opacity-20">
         <div className="absolute inset-0" style={{
           backgroundImage: `linear-gradient(rgba(220, 40, 40, 0.1) 1px, transparent 1px),
-                           linear-gradient(90deg, rgba(220, 40, 40, 0.1) 1px, transparent 1px)`,
+                            linear-gradient(90deg, rgba(220, 40, 40, 0.1) 1px, transparent 1px)`,
           backgroundSize: '50px 50px',
           animation: 'grid-flow 20s linear infinite'
         }}></div>
@@ -106,6 +110,7 @@ export default function WhatIsTedx() {
         </div>
       </div>
       
+      {/* Existing Bottom Red Line */}
       <div className="absolute bottom-0 left-0 right-0 h-2 bg-linear-to-r from-transparent via-red-600 to-transparent"></div>
       
       <style jsx>{`

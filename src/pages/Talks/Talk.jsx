@@ -2,49 +2,8 @@
 import { useEffect, useState } from "react";
 import talks from "../../data/Talksdata";
 import WarpBackground from "../../components/WarpBackground";
+import TalkCardFrame from "./TalkCardFrame";
 import "./Talk.css";
-
-const TalkCardFrame = ({ children, isFlipped }) => {
-  const [glitch, setGlitch] = useState(false);
-
-  useEffect(() => {
-    setGlitch(true);
-    const timer = setTimeout(() => setGlitch(false), 250);
-    return () => clearTimeout(timer);
-  }, [isFlipped]);
-
-  return (
-    <div
-      className={`relative h-full w-full p-[2px] transition-all duration-300 ${
-        glitch ? "scale-[0.98] brightness-150" : "scale-100"
-      }`}
-    >
-      {/* Outer Tech Border */}
-      <div
-        className={`absolute inset-0 transition-all duration-500 ${
-          isFlipped
-            ? "bg-red-600 shadow-[0_0_30px_rgba(220,38,38,0.4)]"
-            : "bg-neutral-800"
-        }`}
-        style={{
-          clipPath: "polygon(0 0, 95% 0, 100% 5%, 100% 100%, 5% 100%, 0 95%)",
-        }}
-      />
-
-      <div
-        className="relative h-full w-full bg-[#050505] overflow-hidden"
-        style={{
-          clipPath: "polygon(0 0, 95% 0, 100% 5%, 100% 100%, 5% 100%, 0 95%)",
-        }}
-      >
-        {/* Animated Scanline Overlay */}
-        <div className="absolute inset-0 pointer-events-none z-20 opacity-20 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%]" />
-
-        {children}
-      </div>
-    </div>
-  );
-};
 
 export default function TalksPage() {
   const [season, setSeason] = useState("ALL");
@@ -57,119 +16,140 @@ export default function TalksPage() {
     season === "ALL" ? talks : talks.filter((t) => t.date === season);
 
   return (
-    <div className="min-h-screen text-white font-sans bg-[#050505] selection:bg-red-600">
+    // Added 'font-orbitron-global' to enforce the font everywhere
+    <div className="relative min-h-screen text-white bg-[#050505] selection:bg-red-600 overflow-x-hidden font-orbitron-global">
+      
+      {/* Background Component */}
       <WarpBackground />
 
-      {/* ===== HERO SECTION ===== */}
-      <section className="relative h-[45vh] flex flex-col items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/60 to-[#050505] z-10" />
-        <div className="relative z-20 text-center px-4">
-          <h1 className="font-[Orbitron] text-6xl md:text-8xl font-black italic tracking-tighter">
-            RACE{" "}
-            <span className="text-stroke-red text-transparent bg-clip-text bg-gradient-to-b from-white to-neutral-500">
-              OF IDEAS
+      {/* Content Container */}
+      <div className="relative z-10">
+        
+        {/* ===== HERO SECTION ===== */}
+        <section className="pt-32 pb-16 flex flex-col items-center justify-center text-center px-4">
+          <h1 className="text-4xl md:text-7xl font-black uppercase tracking-tighter italic mb-6">
+            <span className="text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">Race of </span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-orange-600 drop-shadow-[0_0_25px_rgba(220,38,38,0.5)]">
+              Ideas
             </span>
           </h1>
-          <p className="mt-4 text-neutral-400 font-mono text-xs uppercase tracking-[0.5em]">
-            Indore Grand Prix Protocol
-          </p>
-        </div>
-      </section>
+          
+          <div className="flex items-center gap-4 opacity-80">
+            <div className="h-[1px] w-12 bg-red-600/50" />
+            {/* Replaced font-mono with global font, adjusted tracking for look */}
+            <p className="text-[10px] md:text-xs text-red-500 uppercase tracking-[0.4em] font-bold">
+              Indore Grand Prix Protocol
+            </p>
+            <div className="h-[1px] w-12 bg-red-600/50" />
+          </div>
+        </section>
 
-      {/* SELECTION CONTROLS */}
-      <div className="sticky top-0 z-50 py-4 bg-[#050505]/80 backdrop-blur-xl border-y border-white/5">
-        <div className="flex justify-center gap-2">
-          {seasons.map((y) => (
-            <button
-              key={y}
-              onClick={() => setSeason(y)}
-              className={`px-6 py-1 text-[10px] font-bold transition-all clip-path-slant ${
-                season === y
-                  ? "bg-red-600 text-white"
-                  : "bg-neutral-900 text-neutral-500 hover:bg-neutral-800"
-              }`}
-            >
-              {y}
-            </button>
-          ))}
+        {/* ===== CONTROLS ===== */}
+        <div className="sticky top-0 z-50 py-6 bg-gradient-to-b from-[#050505] via-[#050505]/95 to-transparent backdrop-blur-sm">
+          <div className="flex justify-center gap-4">
+            {seasons.map((y) => (
+              <button
+                key={y}
+                onClick={() => setSeason(y)}
+                className={`relative px-8 py-2 text-xs font-bold uppercase tracking-wider transition-all duration-300 clip-path-button ${
+                  season === y
+                    ? "bg-red-600 text-black shadow-[0_0_20px_rgba(220,38,38,0.6)]"
+                    : "bg-neutral-900/80 text-neutral-500 hover:text-white hover:bg-neutral-800 border border-neutral-800"
+                }`}
+                style={{
+                  clipPath: 'polygon(10% 0, 100% 0, 90% 100%, 0% 100%)'
+                }}
+              >
+                {y}
+              </button>
+            ))}
+          </div>
         </div>
+
+        {/* ===== GRID ===== */}
+        <section className="max-w-7xl mx-auto px-6 py-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {filtered.map((talk, i) => (
+              <div
+                key={`${season}-${i}`}
+                className="perspective-1000 h-[480px] w-full cursor-pointer group/card"
+                onMouseEnter={() => setHoveredIndex(i)}
+                onMouseLeave={() => setHoveredIndex(null)}
+                // Added onClick handler to open link in new tab
+                onClick={() => window.open(talk.link, "_blank", "noopener,noreferrer")}
+              >
+                <TalkCardFrame isFlipped={hoveredIndex === i}>
+                  <div
+                    className={`relative w-full h-full transition-transform duration-700 preserve-3d ${
+                      hoveredIndex === i ? "rotate-y-180" : ""
+                    }`}
+                  >
+                    {/* FRONT SIDE */}
+                    <div className="absolute inset-0 backface-hidden w-full h-full flex flex-col bg-[#0a0a0a]">
+                      <div className="relative h-3/5 w-full bg-black overflow-hidden border-b border-red-600/20">
+                         {/* Scanning Line (Hover Only) */}
+                        <div className="absolute inset-0 z-20 pointer-events-none opacity-0 group-hover/card:opacity-100">
+                          <div className="h-1/2 w-full bg-gradient-to-b from-red-500/10 to-transparent absolute top-[-50%] animate-scan" />
+                        </div>
+                        
+                        <iframe
+                          src={talk.link}
+                          title={talk.title}
+                          className="w-full h-full pointer-events-none opacity-70 grayscale group-hover/card:grayscale-0 group-hover/card:opacity-100 transition-all duration-500"
+                        />
+                      </div>
+                      
+                      <div className="flex-grow p-6 flex flex-col justify-center relative">
+                        <div className="mb-2 w-8 h-1 bg-red-600/50" />
+                        <h3 className="text-xl font-black text-white uppercase leading-none tracking-tighter italic group-hover/card:text-red-500 transition-colors">
+                          {talk.title}
+                        </h3>
+                      </div>
+                    </div>
+
+                    {/* BACK SIDE (Telemetry Data) */}
+                    <div className="absolute inset-0 backface-hidden w-full h-full bg-[#080808] p-8 rotate-y-180 flex flex-col">
+                      <div className="border-l-4 border-red-600 pl-5 mb-6">
+                        <p className="text-[10px] text-neutral-500 uppercase tracking-widest mb-1 font-bold">Speaker_ID</p>
+                        <h2 className="text-2xl font-black italic uppercase text-white tracking-tight">
+                          {talk.speaker}
+                        </h2>
+                      </div>
+
+                      <div className="flex-grow overflow-y-auto custom-scrollbar pr-2 mb-6">
+                        {/* Description text also uses Orbitron now, but lighter weight for readability */}
+                        <p className="text-xs text-neutral-400 leading-relaxed text-justify font-medium tracking-wide">
+                          {talk.description}
+                        </p>
+                      </div>
+
+                      {/* Stats Grid */}
+                      <div className="grid grid-cols-2 gap-4 pt-4 border-t border-red-900/30">
+                        <div className="bg-red-900/5 p-3 border border-red-900/20">
+                          <p className="text-[9px] text-red-400 uppercase font-bold tracking-widest mb-1">
+                            Views
+                          </p>
+                          <p className="text-xl font-black text-white tabular-nums tracking-tighter">
+                            {talk.views}
+                          </p>
+                        </div>
+                        <div className="bg-red-900/5 p-3 border border-red-900/20">
+                          <p className="text-[9px] text-red-400 uppercase font-bold tracking-widest mb-1">
+                            Date
+                          </p>
+                          <p className="text-xl font-black text-white tabular-nums tracking-tighter">
+                            {talk.date}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </TalkCardFrame>
+              </div>
+            ))}
+          </div>
+        </section>
       </div>
-
-      {/* GRID */}
-      <section className="max-w-7xl mx-auto px-6 py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filtered.map((talk, i) => (
-            <div
-              key={`${season}-${i}`}
-              className="perspective-1000 h-[500px] w-full cursor-pointer"
-              onMouseEnter={() => setHoveredIndex(i)}
-              onMouseLeave={() => setHoveredIndex(null)}
-            >
-              <TalkCardFrame isFlipped={hoveredIndex === i}>
-                <div
-                  className={`relative w-full h-full transition-transform duration-700 preserve-3d ${
-                    hoveredIndex === i ? "rotate-y-180" : ""
-                  }`}
-                >
-                  {/* FRONT SIDE */}
-                  <div className="absolute inset-0 backface-hidden w-full h-full flex flex-col bg-neutral-900/40">
-                    <div className="relative h-2/3 bg-black">
-                      <iframe
-                        src={talk.link}
-                        title={talk.title}
-                        className="w-full h-full pointer-events-none opacity-80 group-hover:opacity-100"
-                      />
-                    </div>
-                    <div className="p-6 flex-grow border-t border-red-600/20">
-                      <h3 className="text-lg font-[Orbitron] font-bold uppercase leading-tight tracking-tight italic">
-                        {talk.title}
-                      </h3>
-                    </div>
-                  </div>
-
-                  {/* BACK SIDE (Telemetry) */}
-                  <div className="absolute inset-0 backface-hidden w-full h-full bg-[#0a0a0a] p-8 rotate-y-180 flex flex-col">
-                    <div className="border-l-4 border-red-600 pl-4 mb-6">
-                      <h2 className="text-2xl font-[Orbitron] font-black italic uppercase text-white tracking-tighter">
-                        {talk.speaker}
-                      </h2>
-                    </div>
-
-                    <div className="flex-grow overflow-y-auto custom-scrollbar mb-6">
-                      <p className="text-xs text-neutral-400 font-mono leading-relaxed">
-                        {talk.description}
-                      </p>
-                    </div>
-
-                    {/* Stats Grid */}
-                    <div className="grid grid-cols-2 gap-4 pt-6 border-t border-white/10">
-                      <div className="bg-neutral-900/50 p-3 border-r border-red-600/30">
-                        <p className="text-[8px] text-neutral-500 uppercase font-mono">
-                          Engagement
-                        </p>
-                        <p className="text-lg font-bold text-white font-[Orbitron]">
-                          {talk.views}{" "}
-                          <span className="text-[9px] text-red-600 italic">
-                            pts
-                          </span>
-                        </p>
-                      </div>
-                      <div className="bg-neutral-900/50 p-3">
-                        <p className="text-[8px] text-neutral-500 uppercase font-mono">
-                          Launch Date
-                        </p>
-                        <p className="text-lg font-bold text-white font-[Orbitron]">
-                          {talk.date}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </TalkCardFrame>
-            </div>
-          ))}
-        </div>
-      </section>
     </div>
   );
 }

@@ -1,6 +1,14 @@
 /* Talk.css - Enhanced F1 Racing Theme */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
 
-/* ===== 3D TRANSFORM UTILITIES ===== */
+/* ===== GLOBAL FONT OVERRIDE ===== */
+/* Applies Orbitron to everything, replacing font-sans and font-mono */
+.font-orbitron-global,
+.font-orbitron-global * {
+  font-family: 'Orbitron', sans-serif !important;
+}
+
+/* ===== UTILITIES ===== */
 .perspective-1000 { perspective: 1000px; }
 .preserve-3d { transform-style: preserve-3d; }
 .backface-hidden {
@@ -9,340 +17,53 @@
 }
 .rotate-y-180 { transform: rotateY(180deg); }
 
-/* ===== FONT UTILITIES ===== */
-.text-stroke-red {
-  -webkit-text-stroke: 1px #dc2626;
-  text-stroke: 1px #dc2626;
+/* ===== CUSTOM SCROLLBAR ===== */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #dc2626;
+  border-radius: 4px;
 }
 
-/* ===== CLIP PATH UTILITIES ===== */
-.clip-path-slant {
-  clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
-}
-.clip-path-triangle {
-  clip-path: polygon(100% 0, 0 0, 100% 100%);
-}
-
-/* ===== BACKGROUND ANIMATIONS ===== */
-.speed-lines-bg {
-  background-image: repeating-linear-gradient(90deg,
-      transparent 0px,
-      transparent 49px,
-      rgba(255, 255, 255, 0.03) 50px);
-  background-size: 200% 100%;
-  animation: moveLines 15s linear infinite;
-}
-
-@keyframes moveLines {
-  0% { background-position: 0% 0%; }
-  100% { background-position: 100% 0%; }
-}
-
-/* ===== GLITCH ANIMATION ===== */
+/* ===== ANIMATIONS ===== */
 @keyframes telemetryGlitch {
   0% {
-    filter: brightness(1) contrast(1) grayscale(0);
-    text-shadow: none;
+    filter: brightness(1) contrast(1);
     transform: translateX(0);
   }
-  10% {
-    filter: brightness(1.8) contrast(1.5) grayscale(0.5);
-    text-shadow: 2px 0 rgba(255,0,0,0.7), -2px 0 rgba(0,0,255,0.7);
+  20% {
+    filter: brightness(1.2) contrast(1.1);
     transform: translateX(-2px);
   }
-  20% {
-    filter: brightness(0.8) contrast(0.8) grayscale(0.2);
-    text-shadow: -2px 0 rgba(255,0,0,0.7), 2px 0 rgba(0,0,255,0.7);
+  40% {
+    filter: brightness(0.9) contrast(0.9);
     transform: translateX(2px);
   }
-  30% {
-    filter: brightness(1.2) contrast(1.2);
-    text-shadow: 1px 0 rgba(0,255,0,0.5), -1px 0 rgba(255,0,255,0.5);
-    transform: translateX(-1px);
-  }
   100% {
-    filter: brightness(1) contrast(1) grayscale(0);
-    text-shadow: none;
+    filter: brightness(1) contrast(1);
     transform: translateX(0);
   }
 }
 
 .glitch-active {
-  animation: telemetryGlitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: telemetryGlitch 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
-/* ===== CARD ENTRANCE ANIMATION ===== */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px) scale(0.95) rotateX(10deg);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1) rotateX(0);
-  }
-}
-
-/* ===== HERO ANIMATIONS ===== */
-@keyframes title-entrance {
-  0% {
-    opacity: 0;
-    transform: translateY(-50px) scale(0.9);
-    filter: blur(10px);
-  }
-  60% {
-    transform: translateY(5px) scale(1.02);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
-  }
-}
-
-@keyframes gradient-shift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-title-entrance {
-  animation: title-entrance 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-
-.animate-gradient-shift {
-  background-size: 200% 200%;
-  animation: gradient-shift 3s ease infinite;
-}
-
-.animate-fade-in-up {
-  opacity: 0;
-  animation: fade-in-up 0.8s ease forwards;
-}
-
-/* ===== RACING STRIPE ANIMATION ===== */
-@keyframes racing-stripe {
-  0% {
-    transform: translateX(-100%) skewX(-15deg);
-  }
-  100% {
-    transform: translateX(200%) skewX(-15deg);
-  }
-}
-
-.animate-racing-stripe {
-  animation: racing-stripe 2s ease-in-out infinite;
-}
-
-/* ===== PULSE GLOW ANIMATION ===== */
-@keyframes pulse-glow {
-  0%, 100% {
-    box-shadow: 0 0 35px rgba(220,38,38,0.6), inset 0 0 20px rgba(220,38,38,0.3);
-  }
-  50% {
-    box-shadow: 0 0 50px rgba(220,38,38,0.8), inset 0 0 30px rgba(220,38,38,0.5);
-  }
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
-}
-
-/* ===== CORNER PULSE ANIMATION ===== */
-@keyframes corner-pulse {
-  0%, 100% {
-    opacity: 0.3;
-    border-color: rgba(220,38,38,0.3);
-  }
-  50% {
-    opacity: 0.8;
-    border-color: rgba(220,38,38,0.8);
-  }
-}
-
-.animate-corner-pulse {
-  animation: corner-pulse 2s ease-in-out infinite;
-}
-
-/* ===== SCAN LINE ANIMATION ===== */
 @keyframes scan-line {
-  0% {
-    transform: translateY(-100%);
-  }
-  100% {
-    transform: translateY(100%);
-  }
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
 }
 
-.animate-scan-line {
-  animation: scan-line 8s linear infinite;
+.animate-scan {
+  animation: scan-line 3s linear infinite;
 }
 
-/* ===== GRID MOVEMENT ANIMATION ===== */
-@keyframes grid-move {
-  0% {
-    transform: perspective(500px) rotateX(60deg) translateZ(0);
-  }
-  100% {
-    transform: perspective(500px) rotateX(60deg) translateZ(50px);
-  }
-}
-
-.animate-grid-move {
-  animation: grid-move 20s linear infinite;
-}
-
-/* ===== SPEED LINE ANIMATIONS ===== */
-@keyframes speed-line-1 {
-  0% {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-  20% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(200%);
-    opacity: 0;
-  }
-}
-
-@keyframes speed-line-2 {
-  0% {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-  20% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(200%);
-    opacity: 0;
-  }
-}
-
-@keyframes speed-line-3 {
-  0% {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-  20% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(200%);
-    opacity: 0;
-  }
-}
-
-.animate-speed-line-1 {
-  animation: speed-line-1 3s ease-in-out infinite;
-}
-
-.animate-speed-line-2 {
-  animation: speed-line-2 4s ease-in-out infinite 0.5s;
-}
-
-.animate-speed-line-3 {
-  animation: speed-line-3 3.5s ease-in-out infinite 1s;
-}
-
-/* ===== EQUALIZER ANIMATION ===== */
-@keyframes equalizer {
-  0%, 100% {
-    transform: scaleY(0.5);
-  }
-  50% {
-    transform: scaleY(1);
-  }
-}
-
-.animate-equalizer {
-  animation: equalizer 1s ease-in-out infinite;
-  transform-origin: bottom;
-}
-
-/* ===== FADE IN RIGHT ANIMATION ===== */
-@keyframes fade-in-right {
-  from {
-    opacity: 0;
-    transform: translateX(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-.animate-fade-in-right {
-  animation: fade-in-right 0.6s ease forwards;
-}
-
-/* ===== CUSTOM SCROLLBAR ===== */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 4px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: #050505;
-  border-radius: 10px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #dc2626, #991b1b);
-  border-radius: 10px;
-  transition: background 0.3s ease;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, #ef4444, #dc2626);
-}
-
-/* ===== SLOW ZOOM ANIMATION ===== */
-@keyframes slowZoom {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-/* ===== RESPONSIVE ADJUSTMENTS ===== */
-@media (max-width: 768px) {
-  .animate-title-entrance {
-    animation-duration: 0.8s;
-  }
-
-  .speed-lines-bg {
-    animation-duration: 20s;
-  }
-}
-
-/* ===== PERFORMANCE OPTIMIZATION ===== */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
+/* Utility to ensure text stroke visibility on dark backgrounds */
+.text-stroke-red {
+  -webkit-text-stroke: 1px #dc2626;
+  text-stroke: 1px #dc2626;
 }
