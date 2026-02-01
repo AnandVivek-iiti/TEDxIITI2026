@@ -1,17 +1,17 @@
-import React from 'react';
+import React from "react";
 
-// 1. Define the data structure
+// Navigation items
 const NAV_ITEMS = [
   ["/", "Home"],
   ["/speakers", "Speakers"],
-  // ["/events", "Events"],
   ["/team", "Team"],
-    ["/talk", "Talk"],
+  ["/talk", "Talk"],
   ["/sponsors", "Sponsors"],
+  ["/gallery", "Gallery"],
   ["/contact", "Contact"],
 ];
 
-// 2. Separate Component for the Links
+// Nav links component
 const NavLinks = ({ items }) => {
   return (
     <div className="hidden md:flex gap-10 text-[10px] font-black tracking-[0.3em] text-gray-400">
@@ -21,7 +21,6 @@ const NavLinks = ({ items }) => {
           href={path}
           className="hover:text-red-500 transition-colors"
         >
-          {/* Transforming to uppercase to match original design style */}
           {label.toUpperCase()}
         </a>
       ))}
@@ -29,23 +28,23 @@ const NavLinks = ({ items }) => {
   );
 };
 
-// 3. Main Navbar Component
+// Main Navbar
 const Navbar = () => {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b cursor-none border-white/5 bg-black/40">
-      <div className="max-w-7xl mx-auto px-10 py-6 flex justify-between items-center">
+    <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b border-white/5 bg-black/40">
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 py-4 sm:py-6 flex items-center justify-between">
 
-        {/* Logo Section */}
-        <div className="flex items-baseline gap-1">
-          <span className="text-2xl font-black italic">
-            TED<span className="text-red-600 ">x</span>
+        {/* Logo */}
+        <div className="flex items-baseline gap-1 md:-ml-6">
+          <span className="text-xl sm:text-2xl font-black italic">
+            TED<span className="text-red-600">x</span>
           </span>
-          <span className="text-2xl italic font-black">
+          <span className="text-xl sm:text-2xl font-black italic">
             IIT INDORE
           </span>
         </div>
 
-        {/* Navigation Links Component */}
+        {/* Navigation */}
         <NavLinks items={NAV_ITEMS} />
 
       </div>

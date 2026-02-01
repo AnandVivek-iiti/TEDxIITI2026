@@ -7,6 +7,7 @@ import Sponsors from "./pages/Sponsors.jsx";
 import Contact from "./pages/Contact.jsx";
 import Speakers from "./pages/Speakers.jsx";
 import CustomCursor from "./components/CustomCursor";
+import Gallery from "./pages/Gallery";
 // import Events from "./pages/Events/Events.jsx";
 import Talk from "./pages/Talks/Talk.jsx";
 
@@ -24,6 +25,7 @@ export default function App() {
           <Route path="/speakers" element={<Speakers />} />
           {/* <Route path="/events" element={<Events />} /> */}
           <Route path="/talk" element={<Talk />} />
+          <Route path="/gallery" element={<Gallery />} />
         </Routes>
       </main>
       <Footer />

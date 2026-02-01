@@ -58,12 +58,47 @@ const styles = `
       z-index: 10;
       display: flex;
       flex-direction: column;
-      justify-content: flex-end; 
+      justify-content: space-between; /* CHANGED: Pushes header to top, footer to bottom */
       padding: 2rem;
       padding-bottom: 6rem;
       box-sizing: border-box;
       background: radial-gradient(circle, transparent 60%, rgba(10, 4, 2, 0.4) 150%);
     }
+
+    /* --- NEW HEADER STYLES --- */
+    .header-hud {
+      margin-top: 80px; /* Offset for the navbar */
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      pointer-events: auto; /* Allow interaction if needed */
+    }
+
+    .title-part {
+      font-weight: 900;
+      font-style: italic;
+      text-transform: uppercase;
+      line-height: 1;
+      text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
+    }
+
+    .title-white {
+      font-size: 1.5rem;
+      color: var(--p-cream);
+    }
+
+    .title-red {
+      font-size: 2.5rem;
+      color: var(--p-red);
+      text-shadow: 0 0 30px rgba(194, 23, 23, 0.6);
+    }
+    
+    /* Responsive adjustment for smaller screens */
+    @media (max-width: 1024px) {
+        .title-white { font-size: 1.5rem; }
+        .title-red { font-size: 3rem; }
+    }
+    /* ------------------------- */
 
     .footer-hud {
       display: flex; justify-content: space-between; align-items: flex-end;
@@ -392,6 +427,13 @@ const Hero = () => {
       <div className="scanlines"></div>
       
       <div className="global-hud">
+        {/* NEW HEADER SECTION */}
+        <div className="header-hud">
+          <span className="title-part title-white">THE</span>
+          <span className="title-part title-red">UNCHARTED</span>
+          <span className="title-part title-white">LAP</span>
+        </div>
+
         <div className="footer-hud">
           <div className="speed-gauge">
             <div className="speed-val" ref={speedometerRef}>000</div>
@@ -401,6 +443,7 @@ const Hero = () => {
         </div>
       </div>
     </div>
+    
   );
 };
 

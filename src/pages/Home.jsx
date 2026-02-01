@@ -10,11 +10,8 @@ export default function Home() {
   return (
     <div className="relative w-full min-h-screen bg-[#050505] text-white overflow-x-hidden selection:bg-red-600 selection:text-white">
       
-      {/* The Hero component now contains the Full 3D Canvas, Cursor, and HUD.
-          We do not need WarpBackground or F1Car here anymore as Hero handles the visuals.
-      */}
       <Hero />
-
+    {/* <WarpBackground /> */}
       <main className="relative z-20 bg-black">
         <WhatIsTedx />
         <Venue />

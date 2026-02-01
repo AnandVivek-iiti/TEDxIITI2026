@@ -1,5 +1,7 @@
 import React from 'react';
 import { FaLinkedinIn, FaInstagram } from 'react-icons/fa';
+// Import the background component
+import WarpBackground from '../components/WarpBackground'; 
 
 /**
  * 1. TEAM CARD COMPONENT
@@ -212,8 +214,14 @@ const TeamSection = () => {
   ];
 
   return (
-    <section className="min-h-screen bg-[#050505] py-24 px-4 font-sans text-white overflow-hidden">
-      <div className="container mx-auto max-w-7xl">
+    // Replaced 'bg-[#050505]' with 'relative' and added WarpBackground
+    <section className="relative min-h-screen py-24 px-4 font-sans text-white overflow-hidden">
+      
+      {/* Background Component */}
+      <WarpBackground />
+
+      {/* Content Container with z-10 to sit above background */}
+      <div className="relative z-10 container mx-auto max-w-7xl">
 
         {/* Global Keyframes for Marquee */}
         <style dangerouslySetInnerHTML={{
@@ -308,4 +316,4 @@ const TeamSection = () => {
   );
 };
 
-export default TeamSection;
+export default TeamSection;   

@@ -11,7 +11,6 @@ export default function WarpBackground() {
     if (!ctx) return;
 
     let animationId;
-    let time = 0;
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -35,8 +34,6 @@ export default function WarpBackground() {
     }
 
     const animate = () => {
-      time += 0.016;
-
       // Clear with fade effect
       ctx.fillStyle = 'rgba(5, 5, 5, 0.15)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -88,7 +85,8 @@ export default function WarpBackground() {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 z-0"
+      // Changed 'absolute' to 'fixed' so it stays on screen while scrolling
+      className="fixed inset-0 z-0 pointer-events-none"
       style={{
         background:
           'linear-gradient(135deg, hsl(0 0% 3%) 0%, hsl(0 0% 2%) 100%)',
