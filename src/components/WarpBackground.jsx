@@ -83,16 +83,13 @@ export default function WarpBackground() {
   }, []);
 
   return (
-     <div className="fixed inset-0 -z-10 overflow-hidden">
     <canvas
       ref={canvasRef}
-      // Changed 'absolute' to 'fixed' so it stays on screen while scrolling
-      className="fixed inset-0 z-0 pointer-events-none"
+      className="fixed inset-0 w-full h-full pointer-events-none"
       style={{
-        background:
-          'linear-gradient(135deg, hsl(0 0% 3%) 0%, hsl(0 0% 2%) 100%)',
+        zIndex: 0,
+        background: 'linear-gradient(135deg, hsl(0 0% 3%) 0%, hsl(0 0% 2%) 100%)',
       }}
     />
-    </div>
   );
 }
